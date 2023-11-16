@@ -1,5 +1,8 @@
 import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/auth/login_screen.dart';
+import 'package:document_management_web/views/dashboard/dashboard_screen.dart';
+import 'package:document_management_web/views/main_screen.dart';
+import 'package:document_management_web/views/reminders/reminder_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppAssets.primaryColor),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: MainScreen()/*const LoginScreen()*/,
     );
   }
 }

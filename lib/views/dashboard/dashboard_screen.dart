@@ -3,6 +3,7 @@
 import 'package:animations/animations.dart';
 import 'package:document_management_web/models/charts_model.dart';
 import 'package:document_management_web/models/user_model.dart';
+import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/dashboard/components/custom_analytics_container.dart';
 import 'package:document_management_web/widgets/custom_button.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
@@ -50,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.75),
+              color: AppAssets.backgroundColor,
               borderRadius: const BorderRadius.all(Radius.circular(16.0))),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,

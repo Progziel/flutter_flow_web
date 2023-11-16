@@ -1,3 +1,4 @@
+import 'package:document_management_web/views/document/document_details.dart';
 import 'package:document_management_web/widgets/custom_button.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:document_management_web/widgets/custom_texxtfield.dart';
@@ -55,7 +56,12 @@ class _RecievedWidgetState extends State<RecievedWidget> {
                               child: CustomButtonWidget(
                                 width: 180,
                                 buttonText: 'See Documents',
-                                onTap: () {},
+                                onTap: () {
+                                  Get.to(const DocumentDetailScreen(),
+                                      transition: Transition.zoom,
+                                      duration:
+                                          const Duration(milliseconds: 500));
+                                },
                               ),
                             )
                           ],

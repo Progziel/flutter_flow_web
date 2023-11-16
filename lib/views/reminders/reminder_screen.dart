@@ -15,7 +15,7 @@ class ReminderScreen extends StatefulWidget {
 class _ReminderScreenState extends State<ReminderScreen> {
   final List<Reminder> reminders = List.generate(15, (index) {
     // Generating dynamic dates (e.g., '2023-11-15', '2023-11-16', etc.)
-    String date = '${index + 1} - 10 - 2023';
+    String date = '${index + 1}/10/2023';
     return Reminder(date: date, email: 'james@gmail.com');
   });
   @override
@@ -66,10 +66,20 @@ class _ReminderScreenState extends State<ReminderScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomTextWidget(
-              text: 'Reminders Activity',
-              fSize: 16.0,
-              fWeight: FontWeight.w700,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomTextWidget(
+                  text: 'Reminders Activity',
+                  fSize: 16.0,
+                  fWeight: FontWeight.w700,
+                ),
+                CustomTextWidget(
+                  text: 'View all',
+                  fSize: 12.0,
+                  fWeight: FontWeight.w700,
+                ),
+              ],
             ),
             const SizedBox(height: 15.0),
             ListView.builder(
@@ -134,46 +144,24 @@ class _ReminderScreenState extends State<ReminderScreen> {
             maxLines: 7,
           ),
           const SizedBox(height: 20.0),
-          Wrap(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: const EdgeInsets.all(16.0),
-                  height: 120,
-                  width: 180,
-                  decoration: const BoxDecoration(color: Colors.white),
-                  child: Column(
+          SizedBox(
+            height: Get.height * 0.57,
+            child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: 100,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      CustomTextWidget(
-                        text: 'Email Reminder',
-                        fSize: 16.0,
-                      ),
+                      Text("muneebshahzad@gmail.com"),
+                      Text("+923298928398"),
+                      Text("05"),
+                      Text("Rejected"),
                     ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20.0),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: const EdgeInsets.all(16.0),
-                  height: 120,
-                  width: 180,
-                  decoration: const BoxDecoration(color: Colors.white),
-                  child: Column(
-                    children: [
-                      CustomTextWidget(
-                        text: 'Phone Number Reminder',
-                        fSize: 16.0,
-                        maxLines: 2,
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          )
+                  );
+                }),
+          ),
         ],
       ),
     );

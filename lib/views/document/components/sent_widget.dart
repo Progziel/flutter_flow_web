@@ -1,8 +1,6 @@
-import 'package:document_management_web/views/templates/custom_templates.dart';
 import 'package:document_management_web/widgets/custom_button.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class SentWidget extends StatefulWidget {
   const SentWidget({super.key});
@@ -143,13 +141,13 @@ class _SentWidgetState extends State<SentWidget> {
                                   CustomButtonWidget(
                                     buttonText: 'Edit',
                                     onTap: () {
-                                      Get.to(
-                                          CustomTemplates(
-                                            title: template['name'] ?? '',
-                                          ),
-                                          transition: Transition.zoom,
-                                          duration: const Duration(
-                                              milliseconds: 500));
+                                      // Get.to(
+                                      //     CustomTemplates(
+                                      //       title: template['name'] ?? '',
+                                      //     ),
+                                      //     transition: Transition.zoom,
+                                      //     duration: const Duration(
+                                      //         milliseconds: 500));
                                     },
                                   ),
                                   CustomButtonWidget(

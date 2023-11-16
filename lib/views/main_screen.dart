@@ -1,12 +1,16 @@
 import 'package:document_management_web/utilities/constants.dart';
-import 'package:document_management_web/views/auth/login_screen.dart';
+import 'package:document_management_web/views/admin/admin_screen.dart';
+import 'package:document_management_web/views/pricing/pricing_screen.dart';
 import 'package:document_management_web/views/reminders/reminder_screen.dart';
 import 'package:document_management_web/views/settings/settings.dart';
 import 'package:document_management_web/views/templates/templates_screen.dart';
+import 'package:document_management_web/widgets/custom_text_widget.dart';
+import 'package:document_management_web/widgets/dropdown.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'client/client_screen.dart';
 import 'compose/compose_screen.dart';
@@ -80,14 +84,20 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SideMenu(
+                  footer: StorageIndicator(),
                   collapseWidth: 100,
                   controller: sideMenu,
+                  // title: SideMenuDisplayMode.compact == true ?  CustomButtonWidget(
+                  //   buttonText: 'New Request',
+                  //   onTap: () {},
+                  //   buttonColor: AppAssets.backgroundColor,
+                  // ),
                   style: SideMenuStyle(
                     openSideMenuWidth: context.width * 0.2,
                     itemBorderRadius: BorderRadius.circular(12.0),
                     toggleColor: Colors.white,
-                    itemOuterPadding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 5.0),
+                    itemOuterPadding:
+                        const EdgeInsets.symmetric(horizontal: 10.0),
                     compactSideMenuWidth: 70,
                     backgroundColor: Colors.transparent,
                     itemInnerSpacing: 10.0,
@@ -128,10 +138,20 @@ class _MainScreenState extends State<MainScreen> {
                         '3',
                         style: TextStyle(color: Colors.white),
                       ),
-                      tooltipContent: "This is a tooltip for Dashboard item",
+                      tooltipContent: "Dashboard",
                     ),
                     SideMenuItem(
-                      title: 'Compose',
+                      title: 'New Request',
+                      trailing: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_drop_down_rounded,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          const CustomDropDown(
+                              dropDownText: '', color: Colors.white, list: []);
+                        },
+                      ),
                       onTap: (index, _) {
                         sideMenu.changePage(index);
                       },
@@ -159,11 +179,25 @@ class _MainScreenState extends State<MainScreen> {
                       icon: const Icon(Icons.person_2),
                     ),
                     SideMenuItem(
+                      title: 'Admin',
+                      onTap: (index, _) {
+                        sideMenu.changePage(index);
+                      },
+                      icon: const Icon(Icons.person_2),
+                    ),
+                    SideMenuItem(
                       title: 'Reminders',
                       onTap: (index, _) {
                         sideMenu.changePage(index);
                       },
                       icon: const Icon(Icons.notifications),
+                    ),
+                    SideMenuItem(
+                      title: 'Pricing',
+                      onTap: (index, _) {
+                        sideMenu.changePage(index);
+                      },
+                      icon: const Icon(Icons.attach_money_rounded),
                     ),
                     SideMenuItem(
                       title: 'Settings',
@@ -172,14 +206,14 @@ class _MainScreenState extends State<MainScreen> {
                       },
                       icon: const Icon(Icons.settings),
                     ),
-                    SideMenuItem(
-                      title: 'Logout',
-                      onTap: (index, _) {
-                        Get.to(const LoginScreen(),
-                            transition: Transition.fadeIn);
-                      },
-                      icon: const Icon(Icons.logout),
-                    ),
+                    // SideMenuItem(
+                    //   title: 'Logout',
+                    //   onTap: (index, _) {
+                    //     Get.to(const LoginScreen(),
+                    //         transition: Transition.fadeIn);
+                    //   },
+                    //   icon: const Icon(Icons.logout),
+                    // ),
                   ],
                 ),
                 Expanded(
@@ -191,7 +225,9 @@ class _MainScreenState extends State<MainScreen> {
                       DocumentScreen(),
                       TemplateScreen(),
                       ClientScreen(),
+                      AdminScreen(),
                       ReminderScreen(),
+                      PricingScreen(),
                       Settings(),
                     ],
                   ),
@@ -202,6 +238,29 @@ class _MainScreenState extends State<MainScreen> {
           const SizedBox(height: 10.0),
         ],
       ),
+    );
+  }
+
+  CircularPercentIndicator StorageIndicator() {
+    return CircularPercentIndicator(
+      backgroundColor: Colors.red,
+      radius: 70.0,
+      lineWidth: 10.0,
+      animation: true,
+      percent: 0.7,
+      center: CustomTextWidget(
+        text: '70%',
+        textColor: Colors.white,
+      ),
+      footer: Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: CustomTextWidget(
+          text: 'Storage',
+          textColor: Colors.white,
+        ),
+      ),
+      circularStrokeCap: CircularStrokeCap.square,
+      progressColor: Colors.white,
     );
   }
 }

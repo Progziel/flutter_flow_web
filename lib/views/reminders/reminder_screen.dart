@@ -24,69 +24,61 @@ class _ReminderScreenState extends State<ReminderScreen> {
 
   List<ReminderDataTable> rowData = [
     ReminderDataTable(
-      id: "dwhj5632",
+        id: "dwhj5632",
         expiry: '20/12/23',
-      email: 'john@gmail.com',
-      number: '123456789',
-      status: "Rejected",
-      count: "2"
-    ),
+        email: 'john@gmail.com',
+        number: '123456789',
+        status: "Rejected",
+        count: "2"),
     ReminderDataTable(
         id: "llks5632",
         expiry: '09/12/23',
-      email: 'Kreyghy@gmail.com',
-      number: '123456789',
-      status: "Pending",
-      count: "1"
-    ),
+        email: 'Kreyghy@gmail.com',
+        number: '123456789',
+        status: "Pending",
+        count: "1"),
     ReminderDataTable(
         id: "xWee5632",
         expiry: '11/12/23',
-      email: 'Nora@gmail.com',
-      number: '123456789',
-      status: "Expired",
-      count: "2"
-    ),
+        email: 'Nora@gmail.com',
+        number: '123456789',
+        status: "Expired",
+        count: "2"),
     ReminderDataTable(
         id: "poaz5632",
-      expiry: '20/12/23',
-      email: 'Tiwari0099@gmail.com',
-      number: '123456789',
-      status: "Pending",
-      count: "4"
-    ),
+        expiry: '20/12/23',
+        email: 'Tiwari0099@gmail.com',
+        number: '123456789',
+        status: "Pending",
+        count: "4"),
     ReminderDataTable(
         id: "qwio5632",
         expiry: '20/12/23',
-      email: 'john@gmail.com',
-      number: '123456789',
-      status: "Rejected",
-      count: "2"
-    ),
+        email: 'john@gmail.com',
+        number: '123456789',
+        status: "Rejected",
+        count: "2"),
     ReminderDataTable(
         id: "lksa5632",
         expiry: '20/12/23',
-      email: 'john@gmail.com',
-      number: '123456789',
-      status: "Rejected",
-      count: "2"
-    ),
+        email: 'john@gmail.com',
+        number: '123456789',
+        status: "Rejected",
+        count: "2"),
     ReminderDataTable(
         id: "poip5631",
         expiry: '26/12/23',
-      email: 'john@gmail.com',
-      number: '123456789',
-      status: "Rejected",
-      count: "2"
-    ),
+        email: 'john@gmail.com',
+        number: '123456789',
+        status: "Rejected",
+        count: "2"),
     ReminderDataTable(
         id: "nkcj5632",
         expiry: '20/12/23',
-      email: 'john@gmail.com',
-      number: '123456789',
-      status: "Rejected",
-      count: "2"
-    ),
+        email: 'john@gmail.com',
+        number: '123456789',
+        status: "Rejected",
+        count: "2"),
   ];
   @override
   Widget build(BuildContext context) {
@@ -216,7 +208,6 @@ class _ReminderScreenState extends State<ReminderScreen> {
               )
             ],
           ),
-
           CustomTextWidget(
             text:
                 'The reminder time  is where you define exactly how the system will follow up on your invoices with your customers.',
@@ -224,99 +215,102 @@ class _ReminderScreenState extends State<ReminderScreen> {
             maxLines: 7,
           ),
           const SizedBox(height: 20.0),
-      Container(
-        height: Get.height * 0.62,
-        decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-        child: SingleChildScrollView(
-          child: DataTable(
-            columns: const [
-              DataColumn(
-                label: Text(
-                  'ID',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
+          Container(
+            height: Get.height * 0.62,
+            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+            child: SingleChildScrollView(
+              child: DataTable(
+                columns: const [
+                  DataColumn(
+                    label: Text(
+                      'ID',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Email',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Number',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Expiry',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Count',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  DataColumn(
+                    label: Text(
+                      'Status',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+                rows: [
+                  for (int index = 0; index < rowData.length; index++)
+                    DataRow(
+                      mouseCursor: MaterialStateMouseCursor.clickable,
+                      color: MaterialStateColor.resolveWith((states) {
+                        return index % 2 == 0
+                            ? Colors.white
+                            : Colors.grey.shade200; // Alternate row colors
+                      }),
+                      cells: [
+                        // S.No column
+                        DataCell(Text(rowData[index].id)),
+                        DataCell(Text(rowData[index].email)),
+                        DataCell(Text(rowData[index].number)),
+                        DataCell(Text(rowData[index].expiry)),
+                        DataCell(Text(rowData[index].count)),
+                        DataCell(Text(rowData[index].status)),
 
-              DataColumn(
-                label: Text(
-                  'Email',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+                        // DataCell(
+                        //   GestureDetector(
+                        //     onTap: () {
+                        //       Get.to(const StepperWidget(),
+                        //           transition: Transition.rightToLeft);
+                        //     },
+                        //     child: Container(
+                        //       padding: const EdgeInsets.all(8),
+                        //       decoration: BoxDecoration(
+                        //         color: AppAssets.primaryColor,
+                        //         border: Border.all(color: AppAssets.backgroundColor),
+                        //         borderRadius: BorderRadius.circular(5),
+                        //       ),
+                        //       child: const Text(
+                        //         'Send Request',
+                        //         style: TextStyle(
+                        //           color: Colors.white,
+                        //           fontWeight: FontWeight.bold,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                ],
               ),
-              DataColumn(
-                label: Text(
-                  'Number',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Expiry',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Count',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Status',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-
-
-            ],
-            rows: [
-              for (int index = 0; index < rowData.length; index++)
-                DataRow(
-
-                  mouseCursor: MaterialStateMouseCursor.clickable,
-                  color: MaterialStateColor.resolveWith((states) {
-                    return index % 2 == 0
-                        ? Colors.white
-                        : Colors.grey.shade200; // Alternate row colors
-                  }),
-                  cells: [ // S.No column
-                    DataCell(Text(rowData[index].id)),
-                    DataCell(Text(rowData[index].email)),
-                    DataCell(Text(rowData[index].number)),
-                    DataCell(Text(rowData[index].expiry)),
-                    DataCell(Text(rowData[index].count)),
-                    DataCell(Text(rowData[index].status)),
-
-                    // DataCell(
-                    //   GestureDetector(
-                    //     onTap: () {
-                    //       Get.to(const StepperWidget(),
-                    //           transition: Transition.rightToLeft);
-                    //     },
-                    //     child: Container(
-                    //       padding: const EdgeInsets.all(8),
-                    //       decoration: BoxDecoration(
-                    //         color: AppAssets.primaryColor,
-                    //         border: Border.all(color: AppAssets.backgroundColor),
-                    //         borderRadius: BorderRadius.circular(5),
-                    //       ),
-                    //       child: const Text(
-                    //         'Send Request',
-                    //         style: TextStyle(
-                    //           color: Colors.white,
-                    //           fontWeight: FontWeight.bold,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-            ],
+            ),
           ),
-        ),
-      ),
           // Container(
           //   height: 50,
           //   color: AppAssets.primaryColor,

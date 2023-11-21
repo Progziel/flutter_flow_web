@@ -132,7 +132,7 @@ class _DueDateAndRemindersFormState extends State<DueDateAndRemindersForm> {
         dueDateAndReminders?.dueDate != null
             ? CustomTextWidget(
                 text:
-                    'The due date for sending the documents is ${dueDateAndReminders?.dueDate?.day.toString()}-${dueDateAndReminders?.dueDate?.month.toString()}-${dueDateAndReminders?.dueDate?.year.toString()}',
+                    'The due date for sending the documents is ${dueDateAndReminders!.dueDate!.day.toString()}-${dueDateAndReminders!.dueDate!.month.toString()}-${dueDateAndReminders!.dueDate!.year.toString()}',
                 maxLines: 3,
               )
             : CustomTextWidget(text: 'No Due Date selected'),

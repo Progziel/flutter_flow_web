@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:document_management_web/controller.dart';
-import 'package:document_management_web/models/template_model.dart';
 import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/compose/components/date_selection.dart';
 import 'package:document_management_web/views/compose/components/formdata.dart';
@@ -12,7 +10,6 @@ import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:document_management_web/widgets/custom_texxtfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quill_html_editor/quill_html_editor.dart';
 
 class StepperWidget extends StatefulWidget {
   const StepperWidget({super.key});
@@ -24,53 +21,11 @@ class StepperWidget extends StatefulWidget {
 class StepperWidgetState extends State<StepperWidget> {
   int _currentStep = 0;
   final TextEditingController _templateNameController = TextEditingController();
-  late QuillEditorController instructionController;
-  MyGeneralController generalController = Get.find<MyGeneralController>();
-  MyTemplateModel? myTemplateModel;
-  MyQuestionModel? myQuestionModel;
-  final List<bool> _completedSteps = [false, false, false, false,false];
 
-  ///---quill
-  final _toolbarColor = Colors.grey.shade200;
-  bool _hasFocus = false;
-
-  void unFocusEditor() => instructionController.unFocus();
-
-  // void setHtmlText(String text) async {
-  //   await instructionController.setText(text);
-  // }
-
-  void getHtmlText() async {
-    String? htmlText = await instructionController.getText();
-    debugPrint(htmlText);
-  }
-
-
-@override
-  void initState() {
-  instructionController = QuillEditorController();
- // instructionController.clear();
-
-  instructionController.onTextChanged((text) {
-    debugPrint('listening to $text');
-  });
-  instructionController.onEditorLoaded(() {
-    debugPrint('Editor Loaded :)');
-  });
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    /// please do not forget to dispose the controller
-    instructionController.dispose();
-    super.dispose();
-  }
+  final List<bool> _completedSteps = [false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
-
     return Theme(
       data: ThemeData(
         canvasColor: Colors.transparent,
@@ -99,7 +54,7 @@ class StepperWidgetState extends State<StepperWidget> {
               CustomButtonWidget(
                   buttonText: 'Back', onTap: details.onStepCancel!),
               Visibility(
-                visible: _currentStep >= 4,
+                visible: _currentStep >= 3,
                 child: CustomButtonWidget(
                   buttonText: 'Save as Template',
                   onTap: () {
@@ -108,10 +63,10 @@ class StepperWidgetState extends State<StepperWidget> {
                 ),
               ),
               CustomButtonWidget(
-                buttonText: _currentStep >=  4 ? 'Send Request' : 'Next',
+                buttonText: _currentStep >= 3 ? 'Send Request' : 'Next',
                 onTap: () {
                   details.onStepContinue!();
-                  if (_currentStep > 4) {
+                  if (_currentStep > 3) {
                     // Generate a random link
                     String randomLink = generateRandomLink();
 
@@ -140,33 +95,12 @@ class StepperWidgetState extends State<StepperWidget> {
           //Step1
           Step(
             isActive: _currentStep >= 0,
-            label: CustomTextWidget(text: 'Instructions'),
+            label: CustomTextWidget(text: 'Document\'s Selection'),
             title: CustomTextWidget(text: ''),
             state: _currentStep >= 1 ? StepState.complete : StepState.indexed,
             content: Container(
-               height: context.height * 0.55,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.all(16.0),
-              child: _flutterQuill()
-
-            ),
-          ),
-          //Step2
-          Step(
-            isActive: _currentStep >= 1,
-            label: CustomTextWidget(text: 'Document\'s Selection'),
-            title: CustomTextWidget(text: ''),
-            state: _currentStep >= 2 ? StepState.complete : StepState.indexed,
-            content: Container(
               height: context.height * 0.55,
-
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Colors.white,
-              ),
+              color: Colors.white,
               padding: const EdgeInsets.all(16.0),
               child: FormDataWidget(),
             ),
@@ -186,10 +120,10 @@ class StepperWidgetState extends State<StepperWidget> {
           // ),
           //Step2
           Step(
-            isActive: _currentStep >= 2,
+            isActive: _currentStep >= 1,
             label: CustomTextWidget(text: 'User Selection'),
             title: CustomTextWidget(text: ''),
-            state: _currentStep >= 3 ? StepState.complete : StepState.indexed,
+            state: _currentStep >= 2 ? StepState.complete : StepState.indexed,
             content: Container(
               height: context.height * 0.55,
               color: Colors.white,
@@ -199,10 +133,10 @@ class StepperWidgetState extends State<StepperWidget> {
           ),
           //Step4
           Step(
-            isActive: _currentStep >= 3,
+            isActive: _currentStep >= 2,
             label: CustomTextWidget(text: 'Date Selection'),
             title: CustomTextWidget(text: ''),
-            state: _currentStep >= 4 ? StepState.complete : StepState.indexed,
+            state: _currentStep >= 3 ? StepState.complete : StepState.indexed,
             content: Container(
               height: context.height * 0.55,
               color: Colors.white,
@@ -212,10 +146,10 @@ class StepperWidgetState extends State<StepperWidget> {
           ),
           //Step5
           Step(
-            isActive: _currentStep >= 4,
+            isActive: _currentStep >= 3,
             label: CustomTextWidget(text: 'Review'),
             title: CustomTextWidget(text: ''),
-            state: _currentStep >= 5 ? StepState.complete : StepState.indexed,
+            state: _currentStep >= 4 ? StepState.complete : StepState.indexed,
             content: Container(
               height: context.height * 0.55,
               color: Colors.white,
@@ -250,17 +184,8 @@ class StepperWidgetState extends State<StepperWidget> {
             ),
             CustomButtonWidget(
               buttonText: 'Save',
-              onTap: () async {
-                generalController.addTemplate(
-                    MyTemplateModel(name: _templateNameController.text,
-                        documents: generalController.documents ,
-                        questions:generalController.questions,
-                        description:"" ,
-                        instruction: await instructionController.getText(),
-                        createdAt: DateTime.now()));
-
+              onTap: () {
                 _saveTemplate();
-               // print(object)
                 Get.back();
               },
             ),
@@ -271,7 +196,6 @@ class StepperWidgetState extends State<StepperWidget> {
   }
 
   void _saveTemplate() {
-
     // Your logic to save the template goes here
 
     // Show a SnackBar after saving
@@ -297,123 +221,4 @@ class StepperWidgetState extends State<StepperWidget> {
 
     return randomLink;
   }
-
-Widget _flutterQuill(){
-    return Column(
-      children: [
-        ToolBar(
-          toolBarColor: _toolbarColor,
-          padding: const EdgeInsets.all(8),
-          iconSize: 25,
-          iconColor: Colors.black87,
-          activeIconColor: AppAssets.primaryColor,
-          controller: instructionController,
-          crossAxisAlignment: WrapCrossAlignment.start,
-          direction: Axis.horizontal,
-          customButtons: [
-
-
-
-          ],
-        ),
-        Expanded(
-          child: QuillHtmlEditor(
-           // text: "<h1>Hello</h1>This is a quill html editor example 😊",
-            hintText: 'Type your instructions',
-            controller: instructionController,
-            isEnabled: true,
-            minHeight: 300,
-            //   textStyle: _editorTextStyle,
-            //   hintTextStyle: _hintTextStyle,
-            hintTextAlign: TextAlign.start,
-            padding: const EdgeInsets.only(left: 10, top: 5),
-            hintTextPadding: EdgeInsets.zero,
-            backgroundColor: Colors.white,
-            onFocusChanged: (hasFocus) => debugPrint('has focus $hasFocus'),
-            onTextChanged: (text) => debugPrint('widget text change $text'),
-            onEditorCreated: () => debugPrint('Editor has been loaded'),
-            onEditingComplete: (s) => debugPrint('Editing completed $s'),
-            onEditorResized: (height) =>
-                debugPrint('Editor resized $height'),
-            onSelectionChanged: (sel) =>
-                debugPrint('${sel.index},${sel.length}'),
-            loadingBuilder: (context) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 0.4,
-                  ));},
-          ),
-        ),
-Container(
-  width: double.maxFinite,
-  color: _toolbarColor,
-  padding: const EdgeInsets.all(8),
-  child: Wrap(
-  children: [
-  // textButton(
-  // text: 'Set Text',
-  // onPressed: () {
-  // setHtmlText("${instructionController.text}");
-  // }),
-  textButton(
-  text: 'Get Text',
-  onPressed: () {
-  getHtmlText();
-  }),
-
-
-
-  textButton(
-  text: 'Undo',
-  onPressed: () {
-  instructionController.undo();
-  }),
-  textButton(
-  text: 'Redo',
-  onPressed: () {
-  instructionController.redo();
-  }),
-  textButton(
-  text: 'Clear History',
-  onPressed: () async {
-  instructionController.clearHistory();
-  }),
-  textButton(
-  text: 'Clear Editor',
-  onPressed: () {
-  instructionController.clear();
-  }),
-  textButton(
-  text: 'Get Delta',
-  onPressed: () async {
-  var delta = await instructionController.getDelta();
-  debugPrint('delta');
- // debugPrint(jsonEncode(delta));
-  }),
-  textButton(
-  text: 'Set Delta',
-  onPressed: () {
-
-  }),
-  ],
-  ),
-  ),
-  ]);
-
-}
-  Widget textButton({required String text, required VoidCallback onPressed}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: MaterialButton(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          color: AppAssets.primaryColor,
-          onPressed: onPressed,
-          child: Text(
-            text,
-            style: TextStyle(color: _toolbarColor),
-          )),
-    );
-  }
-
-
 }

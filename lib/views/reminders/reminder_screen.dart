@@ -3,7 +3,6 @@ import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/reminders/components/table.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class ReminderScreen extends StatefulWidget {
@@ -78,6 +77,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
         status: "Rejected",
         count: "2"),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -88,27 +88,17 @@ class _ReminderScreenState extends State<ReminderScreen> {
             color: AppAssets.backgroundColor,
             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
           ),
-          child: context.isLandscape
-              ? Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: leftContainer(),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: SingleChildScrollView(child: rightContainer()),
-                    ),
-                  ],
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      leftContainer(),
-                      rightContainer(),
-                    ],
-                  ),
-                )),
+          child: Column(
+            children: [
+              Expanded(
+                child: rightContainer(),
+              ),
+              Divider(color: Colors.grey),
+              Expanded(
+                child: leftContainer(),
+              ),
+            ],
+          )),
     );
   }
 
@@ -117,12 +107,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: AppAssets.backgroundColor,
-        borderRadius: const BorderRadius.only(
-            // topRight: Radius.circular(16.0),
-            // bottomRight: Radius.circular(16.0),
-            ),
       ),
-      child: Expanded(
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -131,20 +117,19 @@ class _ReminderScreenState extends State<ReminderScreen> {
               children: [
                 CustomTextWidget(
                   text: 'Reminders Activity',
-                  fSize: 16.0,
-                  fWeight: FontWeight.w700,
+                  fSize: 18.0,
+                  fWeight: FontWeight.w500,
                 ),
                 CustomTextWidget(
                   text: 'View all',
                   fSize: 12.0,
-                  fWeight: FontWeight.w700,
                 ),
               ],
             ),
             const SizedBox(height: 15.0),
             ListView.builder(
               shrinkWrap: true,
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: reminders.length,
               itemBuilder: (context, index) {
                 return TimelineTile(
@@ -155,20 +140,28 @@ class _ReminderScreenState extends State<ReminderScreen> {
                   ),
                   endChild: Padding(
                     padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomTextWidget(
-                          text: 'Reminder sent to ${reminders[index].email}',
-                          maxLines: 4,
-                          fSize: 14.0,
+                    child: Card(
+                      color: Colors.grey.shade200,
+                      elevation: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextWidget(
+                              text:
+                                  'Reminder sent to ${reminders[index].email}',
+                              maxLines: 4,
+                              fSize: 14.0,
+                            ),
+                            CustomTextWidget(
+                              text: 'Date: ${reminders[index].date}',
+                              maxLines: 4,
+                              fSize: 12.0,
+                            ),
+                          ],
                         ),
-                        CustomTextWidget(
-                          text: 'Date: ${reminders[index].date}',
-                          maxLines: 4,
-                          fSize: 12.0,
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 );
@@ -197,7 +190,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
             children: [
               CustomTextWidget(
                 text: 'Reminder Schedule ',
-                fSize: 22.0,
+                fSize: 18.0,
                 fWeight: FontWeight.w500,
               ),
               const CircleAvatar(
@@ -212,100 +205,92 @@ class _ReminderScreenState extends State<ReminderScreen> {
             fSize: 14.0,
             maxLines: 7,
           ),
-          const SizedBox(height: 20.0),
-          Container(
-            height: Get.height * 0.62,
-            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
-            child: SingleChildScrollView(
-              child: DataTable(
-                columns: const [
-                  DataColumn(
-                    label: Text(
-                      'ID',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          const SizedBox(height: 10.0),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration:
+                  BoxDecoration(border: Border.all(color: Colors.black)),
+              child: SingleChildScrollView(
+                child: DataTable(
+                  columns: [
+                    DataColumn(
+                      label: CustomTextWidget(
+                        text: 'ID',
+                        fSize: 16.0,
+                        fWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Email',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    DataColumn(
+                      label: CustomTextWidget(
+                        text: 'Email',
+                        fSize: 16.0,
+                        fWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Number',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Expiry',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  DataColumn(
-                    label: Text(
-                      'Count',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  // DataColumn(
-                  //   label: Text(
-                  //     'Status',
-                  //     style:
-                  //         TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
-                ],
-                rows: [
-                  for (int index = 0; index < rowData.length; index++)
-                    DataRow(
-                      mouseCursor: MaterialStateMouseCursor.clickable,
-                      color: MaterialStateColor.resolveWith((states) {
-                        return index % 2 == 0
-                            ? Colors.white
-                            : Colors.grey.shade200; // Alternate row colors
-                      }),
-                      cells: [
-                        // S.No column
-                        DataCell(Text(rowData[index].id)),
-                        DataCell(Text(rowData[index].email)),
-                        DataCell(Text(rowData[index].number)),
-                        DataCell(Text(rowData[index].expiry)),
-                        DataCell(Text(rowData[index].count)),
-                        //  DataCell(Text(rowData[index].status)),
 
-                        // DataCell(
-                        //   GestureDetector(
-                        //     onTap: () {
-                        //       Get.to(const StepperWidget(),
-                        //           transition: Transition.rightToLeft);
-                        //     },
-                        //     child: Container(
-                        //       padding: const EdgeInsets.all(8),
-                        //       decoration: BoxDecoration(
-                        //         color: AppAssets.primaryColor,
-                        //         border: Border.all(color: AppAssets.backgroundColor),
-                        //         borderRadius: BorderRadius.circular(5),
-                        //       ),
-                        //       child: const Text(
-                        //         'Send Request',
-                        //         style: TextStyle(
-                        //           color: Colors.white,
-                        //           fontWeight: FontWeight.bold,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
+                    DataColumn(
+                      label: CustomTextWidget(
+                        text: 'Count',
+                        fSize: 16.0,
+                        fWeight: FontWeight.w500,
+                      ),
                     ),
-                ],
+                    // DataColumn(
+                    //   label: Text(
+                    //     'Status',
+                    //     style:
+                    //         TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    //   ),
+                    // ),
+                  ],
+                  rows: [
+                    for (int index = 0; index < rowData.length; index++)
+                      DataRow(
+                        mouseCursor: MaterialStateMouseCursor.clickable,
+                        color: MaterialStateColor.resolveWith((states) {
+                          return index % 2 == 0
+                              ? Colors.white
+                              : Colors.grey.shade200; // Alternate row colors
+                        }),
+                        cells: [
+                          // S.No column
+                          DataCell(CustomTextWidget(text: rowData[index].id)),
+                          DataCell(
+                              CustomTextWidget(text: rowData[index].email)),
+                          // DataCell(Text(rowData[index].number)),
+                          // DataCell(Text(rowData[index].expiry)),
+                          DataCell(
+                              CustomTextWidget(text: rowData[index].count)),
+                          //  DataCell(Text(rowData[index].status)),
+
+                          // DataCell(
+                          //   GestureDetector(
+                          //     onTap: () {
+                          //       Get.to(const StepperWidget(),
+                          //           transition: Transition.rightToLeft);
+                          //     },
+                          //     child: Container(
+                          //       padding: const EdgeInsets.all(8),
+                          //       decoration: BoxDecoration(
+                          //         color: AppAssets.primaryColor,
+                          //         border: Border.all(color: AppAssets.backgroundColor),
+                          //         borderRadius: BorderRadius.circular(5),
+                          //       ),
+                          //       child: const Text(
+                          //         'Send Request',
+                          //         style: TextStyle(
+                          //           color: Colors.white,
+                          //           fontWeight: FontWeight.bold,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -1,21 +1,18 @@
 import 'package:document_management_web/models/reminder_model.dart';
 
 class MyTemplateModel {
-  String? name, description;
-  String instruction;
-
-  final DateTime? createdAt;
-  final List<MyDocumentModel> documents;
-  final List<MyQuestionModel> questions;
-
   MyTemplateModel({
     this.name,
     this.description,
-    this.createdAt,
+    this.dueDateAndReminders,
     required this.documents,
     required this.questions,
-    required this.instruction
   });
+
+  String? name, description;
+  final DueDateAndRemindersModel? dueDateAndReminders;
+  final List<MyDocumentModel> documents;
+  final List<MyQuestionModel> questions;
 }
 
 class MyDocumentModel {

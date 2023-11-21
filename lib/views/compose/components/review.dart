@@ -1,6 +1,5 @@
 import 'package:document_management_web/controller.dart';
 import 'package:document_management_web/models/template_model.dart';
-import 'package:document_management_web/models/user_model.dart';
 import 'package:document_management_web/widgets/custom_button.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:flutter/material.dart';
@@ -134,26 +133,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              ExpansionTile(
-                  tilePadding: const EdgeInsets.all(12.0),
-                  backgroundColor: Colors.grey.shade300,
-                  collapsedBackgroundColor: Colors.white,
-                  collapsedIconColor: Colors.black,
-                  iconColor: Colors.black,
-                  title: CustomTextWidget(
-                    text: "Users",
-                    fSize: 18,
-                    fWeight: FontWeight.w400,
-                  ),
-                  children: [
-                    Obx(() {
-                      return Column(
-                        children: controller.users
-                            .map((users) => _buildUserList(users))
-                            .toList(),
-                      );
-                    }),
-                  ]),
+              _buildExpandableTile('Users', usersData),
               ExpansionTile(
                   tilePadding: const EdgeInsets.all(12.0),
                   backgroundColor: Colors.grey.shade300,
@@ -174,27 +154,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       );
                     }),
                   ]),
-              ExpansionTile(
-                  tilePadding: const EdgeInsets.all(12.0),
-                  backgroundColor: Colors.grey.shade300,
-                  collapsedBackgroundColor: Colors.white,
-                  collapsedIconColor: Colors.black,
-                  iconColor: Colors.black,
-                  title: CustomTextWidget(
-                    text: "Questionnaires",
-                    fSize: 18,
-                    fWeight: FontWeight.w400,
-                  ),
-                  children: [
-                    Obx(() {
-                      return Column(
-                        children: controller.questions
-                            .map((doc) => _buildQuestionList(doc))
-                            .toList(),
-                      );
-                    }),
-                  ]),
-             // _buildExpandableTile('Questionnaires', questionnairesData),
+              _buildExpandableTile('Questionnaires', questionnairesData),
               const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -240,17 +200,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return ListTile(
       title: Text(document.name),
       subtitle: Text(document.fileType),
-    );
-  }
-  Widget _buildUserList(UserModel userModel) {
-    return ListTile(
-      title: Text(userModel.name),
-      subtitle: Text(userModel.email),
-    );
-  }
-  Widget _buildQuestionList(MyQuestionModel questionModel) {
-    return ListTile(
-      title: Text(questionModel.question),
     );
   }
 }

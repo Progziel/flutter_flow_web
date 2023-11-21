@@ -1,15 +1,15 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:document_management_web/responsive.dart';
 import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/auth/login_screen.dart';
-import 'package:document_management_web/widgets/custom_button.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:document_management_web/widgets/custom_texxtfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const double _width = 300, _height = 300;
+import '../../widgets/custom_button.dart';
+
+const double _width = 500, _height = 500;
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -39,21 +39,36 @@ class _SignupScreenState extends State<SignupScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      body: MyResponsiveScreen(
-          child: context.isLandscape
-              ? Row(
-                  children: [
-                    Expanded(flex: 2, child: _logo()),
-                    Expanded(child: _signUp()),
-                  ],
-                )
-              : Column(
-                  children: [
-                    Expanded(child: _logo()),
-                    Expanded(flex: 2, child: _signUp()),
-                  ],
-                )),
+      body: context.isLandscape
+          ? Row(
+              children: [
+                Expanded(flex: 2, child: _logo()),
+                Expanded(child: _login()),
+              ],
+            )
+          : Column(
+              children: [
+                Expanded(child: _logo()),
+                Expanded(child: _login()),
+              ],
+            ),
     );
+  }
+
+  Widget _responsive() {
+    return context.isLandscape
+        ? Row(
+            children: [
+              Expanded(child: Container(color: Colors.red)),
+              Expanded(child: Container(color: Colors.green)),
+            ],
+          )
+        : Column(
+            children: [
+              Expanded(child: Container(color: Colors.red)),
+              Expanded(child: Container(color: Colors.green)),
+            ],
+          );
   }
 
   Widget _logo() {
@@ -63,23 +78,19 @@ class _SignupScreenState extends State<SignupScreen>
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTextWidget(
-                    text: 'Craft Your Personalized  Document Workflow',
-                    fSize: 26.0,
-                    fWeight: FontWeight.w700,
-                    textColor: Colors.white,
-                  ),
-                  const SizedBox(height: 16),
-                ],
+              const SizedBox(height: 20),
+              CustomTextWidget(
+                text: 'Craft Your Personalized  Document Workflow',
+                fSize: 22.0,
+                fWeight: FontWeight.w700,
+                textColor: Colors.white,
+                maxLines: 4,
+                textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 16),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -91,34 +102,37 @@ class _SignupScreenState extends State<SignupScreen>
                     animatedTexts: [
                       TyperAnimatedText(
                         'Securely Access your Personalized Workspace',
+                        textAlign: TextAlign.center,
                         textStyle: GoogleFonts.poppins(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),
                       ),
                       TyperAnimatedText(
                         'Manage Document Requests and set Reminders',
+                        textAlign: TextAlign.center,
                         textStyle: GoogleFonts.poppins(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),
                       ),
                       TyperAnimatedText(
                         'Experience Seamless Collaboration',
+                        textAlign: TextAlign.center,
                         textStyle: GoogleFonts.poppins(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                 ],
               ),
-              Image.asset('assets/images/loginpage.png')
+              Expanded(child: Image.asset('assets/images/loginpage.png'))
             ],
           ),
         ),
@@ -126,19 +140,22 @@ class _SignupScreenState extends State<SignupScreen>
     );
   }
 
-  Widget _signUp() {
+  Widget _login() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/images/app-logo.png',
-                //  width: 300,
+                width: 300,
+                height: 80,
               ),
+              const SizedBox(height: 16),
               CustomTextField(
                 hintText: 'Name',
                 controller: TextEditingController(),
@@ -165,7 +182,9 @@ class _SignupScreenState extends State<SignupScreen>
               const SizedBox(height: 10.0),
               CustomButtonWidget(
                 buttonText: 'Register',
-                onTap: () {},
+                onTap: () {
+                  Get.to(const LoginScreen(), transition: Transition.fadeIn);
+                },
               ),
               InkWell(
                 onTap: () {
@@ -176,7 +195,7 @@ class _SignupScreenState extends State<SignupScreen>
                     text: '',
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Already have an account?',
+                        text: 'Already have a account??',
                         style: GoogleFonts.poppins(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,

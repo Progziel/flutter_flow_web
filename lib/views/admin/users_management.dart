@@ -117,57 +117,49 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Container(
-            decoration: BoxDecoration(
-                color: AppAssets.backgroundColor,
-                borderRadius: const BorderRadius.all(Radius.circular(16.0))),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomTextWidget(
-                        text: 'Admin Dashboard',
-                        fSize: 24,
-                        fWeight: FontWeight.w600),
-                    const Divider(thickness: 2, color: Colors.grey),
-                    const SizedBox(height: 20),
-                    Row(children: [
-                      LeftContainer(
-                          admins: admins,
-                          selectedAdmin: selectedAdmin,
-                          onSelect: selectAdmin),
-                      if (selectedAdmin != null)
-                        RightContainer(
-                            admin: selectedAdmin!,
-                            onRemove: removeAdmin,
-                            onEditName: editAdminName),
-                      if (selectedAdmin == null && admins.isNotEmpty)
-                        RightContainer(
-                            admin: admins[0],
-                            onRemove: removeAdmin,
-                            onEditName: editAdminName),
-                      if (selectedAdmin == null && admins.isEmpty)
-                        Expanded(
-                            flex: 3,
-                            child: Container(
-                                height: Get.height * 0.8,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade200,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Center(
-                                  child: CustomTextWidget(
-                                      text: 'No User found',
-                                      fSize: 18,
-                                      fWeight: FontWeight.w700),
-                                ))),
-                    ])
-                  ]),
-            )),
-      ),
+      body: Container(
+          decoration: BoxDecoration(
+              color: AppAssets.backgroundColor,
+              borderRadius: const BorderRadius.all(Radius.circular(16.0))),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: ListView(children: [
+              CustomTextWidget(
+                  text: 'Admin Dashboard', fSize: 20, fWeight: FontWeight.w600),
+              const Divider(thickness: 2, color: Colors.grey),
+              const SizedBox(height: 10),
+              LeftContainer(
+                  admins: admins,
+                  selectedAdmin: selectedAdmin,
+                  onSelect: selectAdmin),
+              SizedBox(width: 10.0),
+              if (selectedAdmin != null)
+                RightContainer(
+                    admin: selectedAdmin!,
+                    onRemove: removeAdmin,
+                    onEditName: editAdminName),
+              if (selectedAdmin == null && admins.isNotEmpty)
+                RightContainer(
+                    admin: admins[0],
+                    onRemove: removeAdmin,
+                    onEditName: editAdminName),
+              if (selectedAdmin == null && admins.isEmpty)
+                Expanded(
+                    flex: 3,
+                    child: Container(
+                        height: Get.height * 0.8,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Center(
+                          child: CustomTextWidget(
+                              text: 'No User found',
+                              fSize: 14,
+                              fWeight: FontWeight.w400),
+                        )))
+            ]),
+          )),
     );
   }
 }
@@ -187,9 +179,8 @@ class RightContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 3,
       child: Container(
-        height: Get.height * 0.75,
+        height: context.height * 0.75,
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(6),
@@ -202,6 +193,7 @@ class RightContainer extends StatelessWidget {
                 UserDetails(context),
                 const SizedBox(height: 10.0),
                 Container(
+                  height: context.height * 0.5,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade50,
@@ -343,7 +335,7 @@ class RightContainer extends StatelessWidget {
 
   Container UserDetails(BuildContext context) {
     return Container(
-      height: Get.height * 0.25,
+      height: Get.height * 0.2,
       decoration: BoxDecoration(
         color: Colors.grey.shade50,
         borderRadius: BorderRadius.circular(6),
@@ -380,42 +372,6 @@ class RightContainer extends StatelessWidget {
                     fSize: 12,
                     fWeight: FontWeight.w500,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      CustomButtonWidget(
-                        buttonText: 'Pause',
-                        onTap: () {
-                          const snackBar = SnackBar(
-                              backgroundColor: Colors.red,
-                              duration: Duration(seconds: 1),
-                              content: Text('User paused successfully.'));
-
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        },
-                        buttonColor: Colors.red,
-                        textColor: Colors.white,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      CustomButtonWidget(
-                        buttonText: 'Activate',
-                        onTap: () {
-                          const snackBar = SnackBar(
-                              backgroundColor: Colors.green,
-                              duration: Duration(seconds: 1),
-                              content: Text('User activated successfully.'));
-
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        },
-                        buttonColor: const Color.fromARGB(255, 20, 96, 158),
-                        textColor: Colors.white,
-                      ),
-                    ],
-                  )
                 ],
               ),
             ),
@@ -626,97 +582,92 @@ class _LeftContainerState extends State<LeftContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Container(
+        height: context.height * 0.75,
+        width: context.width * 0.25,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(6),
+        ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Container(
-            height: Get.height * 0.75,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-              child: Column(
-                children: [
-                  Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: Colors.black),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+          child: Column(
+            children: [
+              Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: Colors.black),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: _filterAdmins,
+                    style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      color: Colors.black,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 6),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: _filterAdmins,
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: Colors.black,
-                        ),
-                        decoration: const InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.search,
-                            size: 15,
-                          ),
-                          hintStyle: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                          ),
-                          border: InputBorder.none,
-                          hintText: 'Search by name',
-                        ),
+                    decoration: const InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.search,
+                        size: 15,
                       ),
+                      hintStyle: TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                      ),
+                      border: InputBorder.none,
+                      hintText: 'Search by name',
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  if (_filteredAdmins.isNotEmpty)
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: _filteredAdmins.length,
-                        itemBuilder: (context, index) {
-                          final admin = _filteredAdmins[index];
-                          final isSelected = admin == widget.selectedAdmin;
-                          return GestureDetector(
-                            onTap: () => widget.onSelect(admin),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomTextWidget(
-                                  text: admin.name,
-                                  fSize: 16,
-                                  fWeight: FontWeight.w500,
-                                  textColor: isSelected
-                                      ? Colors.red
-                                      : Colors
-                                          .black, // Change color based on selection
-                                ),
-                                const Divider()
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  else
-                    Expanded(
-                      child: Center(
-                        child: CustomTextWidget(
-                          text: 'No Admins found',
-                          fSize: 14,
-                          fWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                ],
+                ),
               ),
-            ),
+              const SizedBox(height: 20),
+              if (_filteredAdmins.isNotEmpty)
+                Expanded(
+                  child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: _filteredAdmins.length,
+                    itemBuilder: (context, index) {
+                      final admin = _filteredAdmins[index];
+                      final isSelected = admin == widget.selectedAdmin;
+                      return GestureDetector(
+                        onTap: () => widget.onSelect(admin),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextWidget(
+                              text: admin.name,
+                              fSize: 16,
+                              fWeight: FontWeight.w500,
+                              textColor: isSelected
+                                  ? Colors.red
+                                  : Colors
+                                      .black, // Change color based on selection
+                            ),
+                            const Divider()
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                )
+              else
+                Expanded(
+                  child: Center(
+                    child: CustomTextWidget(
+                      text: 'No Admins found',
+                      fSize: 14,
+                      fWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+            ],
           ),
         ),
       ),

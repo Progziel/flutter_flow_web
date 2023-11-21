@@ -4,14 +4,14 @@ import 'package:document_management_web/widgets/custom_texxtfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LeadFormWidget extends StatefulWidget {
-  const LeadFormWidget({super.key});
+class RequestedWidget extends StatefulWidget {
+  const RequestedWidget({super.key});
 
   @override
-  State<LeadFormWidget> createState() => _LeadFormWidgetState();
+  State<RequestedWidget> createState() => _RequestedWidgetState();
 }
 
-class _LeadFormWidgetState extends State<LeadFormWidget> {
+class _RequestedWidgetState extends State<RequestedWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,15 +27,12 @@ class _LeadFormWidgetState extends State<LeadFormWidget> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 itemCount: 3,
                 itemBuilder: (context, index) {
-                  return const Column(
+                  return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Card(
                         elevation: 10.0,
-                        child: ListTile(
-                          leading: Icon(Icons.edit_document),
-                          //title: ,
-                        ) /*ExpansionTile(
+                        child: ExpansionTile(
                           leading: const Icon(Icons.edit_document),
                           collapsedBackgroundColor: Colors.grey.shade200,
                           backgroundColor: Colors.white,
@@ -76,9 +73,9 @@ class _LeadFormWidgetState extends State<LeadFormWidget> {
                               ),
                             )
                           ],
-                        ),*/
+                        ),
                       ),
-                      Divider()
+                      const Divider()
                     ],
                   );
                 },

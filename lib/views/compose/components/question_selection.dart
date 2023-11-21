@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../controller.dart';
-
 class QuestionnaireForm extends StatefulWidget {
   const QuestionnaireForm({Key? key}) : super(key: key);
 
@@ -20,14 +18,12 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
   String selectedAnswerType = 'Checkbox';
   TextEditingController questionTextController = TextEditingController();
   List<String> answerOptions = [];
-  MyGeneralController generalController = Get.find<MyGeneralController>();
-
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10.0),
-      height: context.height * 0.3,
+      height: context.height * 0.5,
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
         border: Border.all(color: Colors.black),
@@ -40,22 +36,19 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
               child: context.isLandscape
-                  ? Column(
+                  ? Row(
                       children: [
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: CustomTextWidget(text: "Questionare",fWeight: FontWeight.w500,fSize: 18)),
-                        SizedBox(
-                          height: 8,
+                        Expanded(
+                          child: _questionField(),
                         ),
-                        _questionField(),
-                        const SizedBox(height: 15.0),
-                        _dropdown(context),
+                        const SizedBox(width: 15.0),
+                        Expanded(
+                          child: _dropdown(context),
+                        ),
                       ],
                     )
                   : Column(
                       children: [
-                        CustomTextWidget(text: "Questionare",fWeight: FontWeight.w500),
                         _questionField(),
                         const SizedBox(height: 15.0),
                         _dropdown(context),
@@ -92,7 +85,8 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
                                 hintStyle: const TextStyle(
                                     color: Colors.grey, fontSize: 14),
                                 border: InputBorder.none,
-                                hintText: 'Enter Answer ${(index + 1).toString()}',
+                                hintText:
+                                    'Enter Answer ${(index + 1).toString()}',
                               ),
                               onChanged: (value) {
                                 answerOptions[index] = value;
@@ -144,36 +138,21 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
       width: 140,
       buttonText: 'Add Question',
       onTap: () {
-
-
-
-        String questions = questionTextController.text;
-        String questionsType = selectedAnswerType;
-        generalController.addQuestion(
-            MyQuestionModel(
-            question: questions,
-            type: questionsType,
-            choices:answerOptions
-            ));
-        questionTextController.clear();
-        setState(() {});
-
-        //
-        // setState(() {
-        //   questions.add(MyQuestionModel(
-        //     question: questionTextController.text,
-        //     type: selectedAnswerType,
-        //     choices: answerOptions,
-        //   ));
-        //   questionTextController.clear();
-        //   answerOptions = [];
-        // });
-       // MyQuestionModel? question = questions.last;
+        setState(() {
+          questions.add(MyQuestionModel(
+            question: questionTextController.text,
+            type: selectedAnswerType,
+            choices: answerOptions,
+          ));
+          questionTextController.clear();
+          answerOptions = [];
+        });
+        MyQuestionModel? question = questions.last;
         // ignore: avoid_print
-        // print('Question: ${question.question}');
-        // print('QuestionType: ${question.type}');
-        // print('Options: ${question.choices ?? ""}');
-        // print(questions.length);
+        print('Question: ${question.question}');
+        print('QuestionType: ${question.type}');
+        print('Options: ${question.choices ?? ""}');
+        print(questions.length);
       },
     );
   }
@@ -188,8 +167,6 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
           alignment: Alignment.center,
           dropdownColor: Colors.white,
           focusColor: Colors.white,
-          elevation: 0,
-          underline: SizedBox(),
           borderRadius: BorderRadius.circular(12.0),
           value: selectedAnswerType,
           items:

@@ -56,31 +56,57 @@ class _ClientScreenState extends State<ClientScreen> {
         borderRadius: const BorderRadius.all(Radius.circular(16.0)),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         child: Column(
           children: [
-            Row(
-              children: [
-                CustomButtonWidget(
-                  buttonText: 'Expand All',
-                  onTap: () {
-                    setState(() {
-                      isExpanded = true;
-                      expansionTileController.expand();
-                    });
-                  },
-                ),
-                CustomButtonWidget(
-                  buttonText: 'Collapse All',
-                  onTap: () {
-                    setState(() {
-                      isExpanded = false;
-                      expansionTileController.collapse();
-                    });
-                  },
-                )
-              ],
-            ),
+            context.isLandscape
+                ? Row(
+                    children: [
+                      CustomButtonWidget(
+                        buttonText: 'Expand All',
+                        onTap: () {
+                          setState(() {
+                            isExpanded = true;
+                            expansionTileController.expand();
+                          });
+                        },
+                      ),
+                      CustomButtonWidget(
+                        buttonText: 'Collapse All',
+                        onTap: () {
+                          setState(() {
+                            isExpanded = false;
+                            expansionTileController.collapse();
+                          });
+                        },
+                      )
+                    ],
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomButtonWidget(
+                        width: 120,
+                        buttonText: 'Expand All',
+                        onTap: () {
+                          setState(() {
+                            isExpanded = true;
+                            expansionTileController.expand();
+                          });
+                        },
+                      ),
+                      CustomButtonWidget(
+                        buttonText: 'Collapse All',
+                        width: 120,
+                        onTap: () {
+                          setState(() {
+                            isExpanded = false;
+                            expansionTileController.collapse();
+                          });
+                        },
+                      )
+                    ],
+                  ),
             ExpansionTile(
               collapsedBackgroundColor: Colors.grey.shade100,
               backgroundColor: Colors.grey.shade200,
@@ -91,8 +117,8 @@ class _ClientScreenState extends State<ClientScreen> {
                 });
               },
               title: CustomTextWidget(
-                text: isExpanded ? 'Collapse' : 'Expand',
-                fSize: 20.0,
+                text: 'Lead Form',
+                fSize: 18.0,
                 fWeight: FontWeight.w600,
               ),
               leading: const Icon(Icons.edit_document),
@@ -102,51 +128,88 @@ class _ClientScreenState extends State<ClientScreen> {
                   children: [
                     Image.asset(
                       'assets/images/app-logo.png',
-                      height: 150,
+                      height: 60,
                     ),
                     CustomTextWidget(
                       text:
                           'Please upload the following documents before the expiry date of 31-November-2023',
-                      fSize: 16.0,
+                      fSize: 14.0,
                       fWeight: FontWeight.w400,
                       maxLines: 2,
                       textAlign: TextAlign.center,
+                      textColor: Colors.grey,
                     ),
-                    const SizedBox(height: 15.0),
-                    Container(
-                      height: Get.height * 0.3,
-                      width: context.width * 0.5,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 20.0,
-                      ),
-                      color: Colors.grey.shade300,
-                      child: Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: templates.length,
-                          itemBuilder: (context, index) {
-                            final template = templates[index];
-                            return Column(
-                              children: [
-                                Column(
-                                  children: _buildExpansionTiles(
-                                      template['questions']),
+                    const SizedBox(height: 10.0),
+                    context.isLandscape
+                        ? Container(
+                            height: context.height * 0.5,
+                            width: context.width * 0.5,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 20.0,
+                            ),
+                            color: Colors.grey.shade300,
+                            child: Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
+                                      itemCount: templates.length,
+                                      itemBuilder: (context, index) {
+                                        final template = templates[index];
+                                        return Column(
+                                          children: _buildExpansionTiles(
+                                              template['questions']),
+                                        );
+                                      },
+                                    ),
+                                    CustomButtonWidget(
+                                      width: 100,
+                                      buttonText: 'Submit',
+                                      onTap: () {},
+                                    )
+                                  ],
                                 ),
-                                const Divider(),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 15.0),
-                    CustomButtonWidget(
-                      // width: context.width * 0.1,
-                      buttonText: 'Submit',
-                      onTap: () {},
-                    ),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            height: context.height * 0.45,
+                            width: context.width * 0.5,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 20.0,
+                            ),
+                            color: Colors.grey.shade300,
+                            child: Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const AlwaysScrollableScrollPhysics(),
+                                      itemCount: templates.length,
+                                      itemBuilder: (context, index) {
+                                        final template = templates[index];
+                                        return Column(
+                                          children: _buildExpansionTiles(
+                                              template['questions']),
+                                        );
+                                      },
+                                    ),
+                                    CustomButtonWidget(
+                                      buttonText: 'Submit',
+                                      onTap: () {},
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ],
@@ -179,9 +242,12 @@ class _ClientScreenState extends State<ClientScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                CustomButtonWidget(
-                  buttonText: 'Upload',
-                  onTap: () {},
+                Visibility(
+                  visible: question['type'] == 'document',
+                  child: CustomButtonWidget(
+                    buttonText: 'Upload',
+                    onTap: () {},
+                  ),
                 ),
                 CustomButtonWidget(
                   buttonText: 'Not Applicable',
@@ -288,11 +354,6 @@ class _ClientScreenState extends State<ClientScreen> {
       title: CustomTextWidget(text: 'Document: ${document['title']}'),
       subtitle: CustomTextWidget(
           text: 'Type: ${document['type']}, Due Date: ${document['dueDate']}'),
-      trailing: CustomButtonWidget(
-        width: 180,
-        buttonText: 'Attach Document',
-        onTap: () {},
-      ),
     );
   }
 }

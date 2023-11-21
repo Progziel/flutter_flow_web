@@ -53,9 +53,9 @@ class _UserDataTableState extends State<UserDataTable>
             unselectedLabelColor: Colors.grey,
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
-              Tab(height: 40, child: CustomTextWidget(text: 'Entry')),
               Tab(height: 40, child: CustomTextWidget(text: 'Individual')),
-               Tab(height: 40, child: CustomTextWidget(text: 'Groups')),
+              Tab(height: 40, child: CustomTextWidget(text: 'Reciever')),
+              Tab(height: 40, child: CustomTextWidget(text: 'Groups')),
             ],
           ),
         ),
@@ -65,10 +65,9 @@ class _UserDataTableState extends State<UserDataTable>
           child: TabBarView(
             controller: _tabController,
             children: const [
-              UserTable(),
               IndividualRequest(),
-
-               UserTable(),
+              UserTable(),
+              UserTable(),
             ],
           ),
         ),

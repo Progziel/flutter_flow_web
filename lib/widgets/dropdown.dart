@@ -70,7 +70,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
         },
         buttonStyleData: ButtonStyleData(
           height: 50,
-          width: context.width * 0.4,
+          width: context.width * 0.3,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: widget.color,

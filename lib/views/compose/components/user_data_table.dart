@@ -1,5 +1,7 @@
 import 'package:document_management_web/utilities/constants.dart';
-import 'package:document_management_web/views/compose/components/table.dart';
+import 'package:document_management_web/views/compose/components/users_table.dart';
+import 'package:document_management_web/widgets/custom_text_widget.dart';
+import 'package:document_management_web/widgets/custom_texxtfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +20,7 @@ class _UserDataTableState extends State<UserDataTable>
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -50,9 +52,10 @@ class _UserDataTableState extends State<UserDataTable>
             labelColor: AppAssets.primaryColor,
             unselectedLabelColor: Colors.grey,
             indicatorSize: TabBarIndicatorSize.tab,
-            tabs: const [
-              Tab(text: 'Reciever', height: 40),
-              Tab(text: 'Groups', height: 40),
+            tabs: [
+              Tab(height: 40, child: CustomTextWidget(text: 'Entry')),
+              Tab(height: 40, child: CustomTextWidget(text: 'Individual')),
+               Tab(height: 40, child: CustomTextWidget(text: 'Groups')),
             ],
           ),
         ),
@@ -62,12 +65,36 @@ class _UserDataTableState extends State<UserDataTable>
           child: TabBarView(
             controller: _tabController,
             children: const [
-              TableData(),
-              TableData(),
+              UserTable(),
+              IndividualRequest(),
+
+               UserTable(),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class IndividualRequest extends StatelessWidget {
+  const IndividualRequest({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        children: [
+          const SizedBox(height: 15.0),
+          CustomTextField(hintText: 'Name', fillColor: Colors.grey.shade200),
+          const SizedBox(height: 15.0),
+          CustomTextField(hintText: 'Number', fillColor: Colors.grey.shade200),
+          const SizedBox(height: 15.0),
+          CustomTextField(hintText: 'Address', fillColor: Colors.grey.shade200),
+          const SizedBox(height: 15.0),
+        ],
+      ),
     );
   }
 }

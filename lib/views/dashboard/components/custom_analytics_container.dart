@@ -40,8 +40,8 @@ class _CustomAnalyticsContainerState extends State<CustomAnalyticsContainer> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
         child: SizedBox(
-          width: 300,
-          height: 150,
+          width: 250,
+          height: 120,
           child: Card(
             // shadowColor: AppAssets.backgroundColor,
             elevation: isHovered ? 0 : 5.0,
@@ -57,16 +57,16 @@ class _CustomAnalyticsContainerState extends State<CustomAnalyticsContainer> {
                     children: [
                       CustomTextWidget(
                         text: widget.analyticsType,
-                        fSize: 20.0,
-                        fWeight: FontWeight.w700,
+                        fSize: 18.0,
+                        fWeight: FontWeight.w600,
                       ),
                       const Icon(Icons.query_stats_outlined)
                     ],
                   ),
                   CustomTextWidget(
                     text: widget.analyticsValue,
-                    fSize: 30.0,
-                    fWeight: FontWeight.w500,
+                    fSize: 24.0,
+                    fWeight: FontWeight.w400,
                   ),
                   RichText(
                     text: TextSpan(

@@ -141,7 +141,8 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CustomButtonWidget(
-                    buttonText: 'View only',
+                    buttonText: 'Request Again',
+                    buttonColor: Colors.red,
                     onTap: () {},
                   ),
                   CustomButtonWidget(

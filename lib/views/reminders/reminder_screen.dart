@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-import '../compose/components/table.dart';
-
 class ReminderScreen extends StatefulWidget {
   const ReminderScreen({super.key});
 
@@ -203,8 +201,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
                 fWeight: FontWeight.w500,
               ),
               const CircleAvatar(
-                child: Icon(Icons.add),
                 radius: 15,
+                child: Icon(Icons.add),
               )
             ],
           ),
@@ -256,13 +254,13 @@ class _ReminderScreenState extends State<ReminderScreen> {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  DataColumn(
-                    label: Text(
-                      'Status',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  // DataColumn(
+                  //   label: Text(
+                  //     'Status',
+                  //     style:
+                  //         TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  //   ),
+                  // ),
                 ],
                 rows: [
                   for (int index = 0; index < rowData.length; index++)
@@ -280,7 +278,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
                         DataCell(Text(rowData[index].number)),
                         DataCell(Text(rowData[index].expiry)),
                         DataCell(Text(rowData[index].count)),
-                        DataCell(Text(rowData[index].status)),
+                        //  DataCell(Text(rowData[index].status)),
 
                         // DataCell(
                         //   GestureDetector(

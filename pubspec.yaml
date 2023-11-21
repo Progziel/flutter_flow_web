@@ -41,8 +41,10 @@ dependencies:
   animations: ^2.0.8
   flex_color_picker: ^3.3.0
   timeline_tile: ^2.0.0
-  flutter_quill: ^8.1.1
+#  flutter_quill: ^8.1.1
   percent_indicator: ^4.2.3
+  quill_html_editor: ^2.2.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

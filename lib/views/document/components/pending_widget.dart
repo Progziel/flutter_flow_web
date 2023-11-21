@@ -14,15 +14,6 @@ class PendingWidget extends StatefulWidget {
 class _PendingWidgetState extends State<PendingWidget> {
   final List<Map<String, String>> templates = [
     {
-      'name': 'Business Report Template',
-      'description': 'A template for creating professional business reports.'
-    },
-    {
-      'name': 'Invoice Template',
-      'description':
-          'Generate invoices for your products and services with this template.'
-    },
-    {
       'name': 'Meeting Agenda Template',
       'description':
           'Plan and organize your meetings with this agenda template.'

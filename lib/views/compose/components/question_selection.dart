@@ -1,4 +1,4 @@
-import 'package:document_management_web/models/question_model.dart';
+import 'package:document_management_web/models/template_model.dart';
 import 'package:document_management_web/widgets/custom_button.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:document_management_web/widgets/custom_texxtfield.dart';
@@ -6,26 +6,32 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../controller.dart';
+
 class QuestionnaireForm extends StatefulWidget {
-  const QuestionnaireForm({super.key});
+  const QuestionnaireForm({Key? key}) : super(key: key);
 
   @override
   _QuestionnaireFormState createState() => _QuestionnaireFormState();
 }
 
 class _QuestionnaireFormState extends State<QuestionnaireForm> {
-  List<Question> questions = [];
+  List<MyQuestionModel> questions = [];
   String selectedAnswerType = 'Checkbox';
   TextEditingController questionTextController = TextEditingController();
   List<String> answerOptions = [];
+  MyGeneralController generalController = Get.find<MyGeneralController>();
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10.0),
-      height: context.height * 0.5,
+      height: context.height * 0.3,
       decoration: BoxDecoration(
-          color: Colors.grey.shade200, border: Border.all(color: Colors.black)),
+        color: Colors.grey.shade200,
+        border: Border.all(color: Colors.black),
+      ),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -34,31 +40,32 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
               child: context.isLandscape
-                  ? Row(
+                  ? Column(
                       children: [
-                        Expanded(
-                          child: _questionField(),
+                        Align(
+                            alignment: Alignment.topLeft,
+                            child: CustomTextWidget(text: "Questionare",fWeight: FontWeight.w500,fSize: 18)),
+                        SizedBox(
+                          height: 8,
                         ),
-                        const SizedBox(width: 15.0),
-                        Expanded(
-                          child: _dropdown(context),
-                        ),
+                        _questionField(),
+                        const SizedBox(height: 15.0),
+                        _dropdown(context),
                       ],
                     )
                   : Column(
                       children: [
+                        CustomTextWidget(text: "Questionare",fWeight: FontWeight.w500),
                         _questionField(),
                         const SizedBox(height: 15.0),
                         _dropdown(context),
                       ],
                     ),
             ),
-            // Answer Options (for Checkbox and Radio Button)
             if (selectedAnswerType == 'Checkbox' ||
                 selectedAnswerType == 'Radio Button')
               Column(
                 children: [
-                  CustomTextWidget(text: 'Answer Options'),
                   ListView.builder(
                     shrinkWrap: true,
                     itemCount: answerOptions.length,
@@ -85,49 +92,33 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
                                 hintStyle: const TextStyle(
                                     color: Colors.grey, fontSize: 14),
                                 border: InputBorder.none,
-                                hintText:
-                                    'Enter Answer ${(index + 1).toString()}',
+                                hintText: 'Enter Answer ${(index + 1).toString()}',
                               ),
                               onChanged: (value) {
                                 answerOptions[index] = value;
-                                questions.last.answerOptions = answerOptions;
+                                questions.last.choices = answerOptions;
                               },
                             ),
                           ),
                         ),
                       );
-
-                      // return TextFormField(
-                      //   onChanged: (value) {
-                      //     answerOptions[index] = value;
-                      //     questions.last.answerOptions = answerOptions;
-                      //   },
-                      // );
                     },
                   ),
-                  _addOptionButton(),
                 ],
               ),
-            if (selectedAnswerType == 'Text Field')
-              const CustomTextField(
-                  hintText: 'Enter Text Limit', fillColor: Colors.white),
-
-            // Add More Question Button
-            const Divider(),
-            const SizedBox(height: 10.0),
             context.isLandscape
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      _addOptionButton(),
                       _addQuestionButton(),
-                      _submitButton(),
                     ],
                   )
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      _addOptionButton(),
                       _addQuestionButton(),
-                      _submitButton(),
                     ],
                   )
           ],
@@ -153,26 +144,36 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
       width: 140,
       buttonText: 'Add Question',
       onTap: () {
-        setState(() {
-          questions.add(Question(
-            text: '',
-            answerType: selectedAnswerType,
-            answerOptions: answerOptions,
-          ));
-          // Clear input fields
-          questionTextController.clear();
-          answerOptions = [];
-        });
-      },
-    );
-  }
 
-  CustomButtonWidget _submitButton() {
-    return CustomButtonWidget(
-      width: 140,
-      buttonText: 'Submit',
-      onTap: () {
-        navigateToNextScreen(questions);
+
+
+        String questions = questionTextController.text;
+        String questionsType = selectedAnswerType;
+        generalController.addQuestion(
+            MyQuestionModel(
+            question: questions,
+            type: questionsType,
+            choices:answerOptions
+            ));
+        questionTextController.clear();
+        setState(() {});
+
+        //
+        // setState(() {
+        //   questions.add(MyQuestionModel(
+        //     question: questionTextController.text,
+        //     type: selectedAnswerType,
+        //     choices: answerOptions,
+        //   ));
+        //   questionTextController.clear();
+        //   answerOptions = [];
+        // });
+       // MyQuestionModel? question = questions.last;
+        // ignore: avoid_print
+        // print('Question: ${question.question}');
+        // print('QuestionType: ${question.type}');
+        // print('Options: ${question.choices ?? ""}');
+        // print(questions.length);
       },
     );
   }
@@ -187,11 +188,12 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
           alignment: Alignment.center,
           dropdownColor: Colors.white,
           focusColor: Colors.white,
+          elevation: 0,
+          underline: SizedBox(),
           borderRadius: BorderRadius.circular(12.0),
-          //elevation: 10,
           value: selectedAnswerType,
           items:
-              ['Checkbox', 'Yes/No', 'Radio Button', 'Text Field'].map((type) {
+              ['Checkbox', 'Radio Button', 'Yes/No', 'Text Field'].map((type) {
             return DropdownMenuItem<String>(
               value: type,
               child: CustomTextWidget(text: type),
@@ -215,7 +217,7 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
     );
   }
 
-  void navigateToNextScreen(List<Question> submittedQuestions) {
+  void navigateToNextScreen(List<MyQuestionModel> submittedQuestions) {
     // Navigate to the next screen and pass the submitted questions as needed.
     // You can use Navigator to push a new route with the submitted data.
   }

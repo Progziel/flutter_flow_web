@@ -1,80 +1,28 @@
+import 'package:document_management_web/controller.dart';
 import 'package:document_management_web/utilities/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class TableData extends StatefulWidget {
-  const TableData({Key? key}) : super(key: key);
+class UserTable extends StatefulWidget {
+  const UserTable({Key? key}) : super(key: key);
 
   @override
-  _TableDataState createState() => _TableDataState();
+  _UserTableState createState() => _UserTableState();
 }
 
-class _TableDataState extends State<TableData> {
+class _UserTableState extends State<UserTable> {
+  late MyGeneralController generalController;
   bool selectAll = false;
-  List<TableRowData> rowData = [
-    TableRowData(
-      name: 'John Smith',
-      email: 'john@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-    TableRowData(
-      name: 'Alice Johnson',
-      email: 'alice@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-    TableRowData(
-      name: 'Bob Davis',
-      email: 'bob@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-    TableRowData(
-      name: 'Ella Clark',
-      email: 'ella@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-    TableRowData(
-      name: 'David Wilson',
-      email: 'david@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-    TableRowData(
-      name: 'Olivia Miller',
-      email: 'olivia@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-    TableRowData(
-      name: 'Liam Brown',
-      email: 'liam@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-    TableRowData(
-      name: 'Sophia Harris',
-      email: 'sophia@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-    TableRowData(
-      name: 'Michael White',
-      email: 'michael@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-    TableRowData(
-      name: 'Ava Jones',
-      email: 'ava@gmail.com',
-      number: '123456789',
-      selected: false,
-    ),
-  ];
+
+  @override
+  void initState() {
+    super.initState();
+    generalController = Get.find<MyGeneralController>();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var users = generalController.users;
     return Container(
       height: 100,
       decoration: BoxDecoration(border: Border.all(color: Colors.black)),
@@ -112,7 +60,7 @@ class _TableDataState extends State<TableData> {
                 onChanged: (value) {
                   setState(() {
                     selectAll = value!;
-                    for (var data in rowData) {
+                    for (var data in users) {
                       data.selected = value;
                     }
                   });
@@ -121,7 +69,7 @@ class _TableDataState extends State<TableData> {
             ),
           ],
           rows: [
-            for (int index = 0; index < rowData.length; index++)
+            for (int index = 0; index < users.length; index++)
               DataRow(
                 mouseCursor: MaterialStateMouseCursor.clickable,
                 color: MaterialStateColor.resolveWith((states) {
@@ -134,16 +82,16 @@ class _TableDataState extends State<TableData> {
                     Text((index + 1).toString()),
                   ), // S.No column
 
-                  DataCell(Text(rowData[index].name)),
-                  DataCell(Text(rowData[index].email)),
-                  DataCell(Text(rowData[index].number)),
+                  DataCell(Text(users[index].name)),
+                  DataCell(Text(users[index].email)),
+                  DataCell(Text(users[index].number)),
                   DataCell(
                     Checkbox(
                       activeColor: AppAssets.primaryColor,
-                      value: rowData[index].selected,
+                      value: users[index].selected,
                       onChanged: (value) {
                         setState(() {
-                          rowData[index].selected = value!;
+                          users[index].selected = value!;
                         });
                       },
                     ),
@@ -178,19 +126,4 @@ class _TableDataState extends State<TableData> {
       ),
     );
   }
-}
-
-class TableRowData {
-  final String name;
-
-  final String email;
-  final String number;
-  bool selected;
-
-  TableRowData({
-    required this.name,
-    required this.email,
-    required this.number,
-    this.selected = false,
-  });
 }

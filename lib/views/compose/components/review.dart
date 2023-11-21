@@ -1,3 +1,6 @@
+import 'package:document_management_web/controller.dart';
+import 'package:document_management_web/models/template_model.dart';
+import 'package:document_management_web/models/user_model.dart';
 import 'package:document_management_web/widgets/custom_button.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,30 +16,27 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
+  MyTemplateModel? myTemplateModel;
+  late MyGeneralController controller;
+
+  @override
+  void initState() {
+    controller = Get.put(MyGeneralController());
+    super.initState();
+  }
+
   List<UserData> usersData = [
     UserData(name: "Andrew", email: "andrew@gmail.com"),
-    UserData(name: "Alice", email: "alice@gmail.com"),
-    UserData(name: "Bob", email: "bob@gmail.com"),
   ];
 
-  List<DocumentData> documentsData = [
-    DocumentData(name: "Birth Certificate", type: "PDF"),
-    DocumentData(name: "Passport", type: "JPG"),
-    DocumentData(name: "Resume", type: "Doc"),
-  ];
+  // List<DocumentData> documentsData = [
+  //   DocumentData(name: "Birth Certificate", type: "PDF"),
+  // ];
 
   List<QuestionnaireData> questionnairesData = [
     QuestionnaireData(
       question: "What is the expiry date of certificate?",
       options: ["PDF", "Doc", "Image", "Other"],
-    ),
-    QuestionnaireData(
-      question: "Which format is preferred?",
-      options: ["PDF", "Doc", "Image"],
-    ),
-    QuestionnaireData(
-      question: "Additional comments?",
-      options: ["Text", "Audio", "None"],
     ),
   ];
 
@@ -60,7 +60,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         } else if (item is QuestionnaireData) {
           return _buildQuestionnaireTile(item);
         } else {
-          return Container(); // Handle other data types if needed
+          return Container();
         }
       }).toList(),
     );
@@ -115,8 +115,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       child: ListTile(
         title: CustomTextWidget(text: questionnaire.question),
         subtitle: CustomTextWidget(
-          text: questionnaire.options
-              .join(', '), // Display options as a comma-separated string
+          text: questionnaire.options.join(', '),
           fSize: 12,
         ),
       ),
@@ -127,15 +126,75 @@ class _ReviewScreenState extends State<ReviewScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey.shade200, border: Border.all(color: Colors.black)),
+        color: Colors.grey.shade200,
+        border: Border.all(color: Colors.black),
+      ),
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              _buildExpandableTile('Users', usersData),
-              _buildExpandableTile('Documents', documentsData),
-              _buildExpandableTile('Questionnaires', questionnairesData),
+              ExpansionTile(
+                  tilePadding: const EdgeInsets.all(12.0),
+                  backgroundColor: Colors.grey.shade300,
+                  collapsedBackgroundColor: Colors.white,
+                  collapsedIconColor: Colors.black,
+                  iconColor: Colors.black,
+                  title: CustomTextWidget(
+                    text: "Users",
+                    fSize: 18,
+                    fWeight: FontWeight.w400,
+                  ),
+                  children: [
+                    Obx(() {
+                      return Column(
+                        children: controller.users
+                            .map((users) => _buildUserList(users))
+                            .toList(),
+                      );
+                    }),
+                  ]),
+              ExpansionTile(
+                  tilePadding: const EdgeInsets.all(12.0),
+                  backgroundColor: Colors.grey.shade300,
+                  collapsedBackgroundColor: Colors.white,
+                  collapsedIconColor: Colors.black,
+                  iconColor: Colors.black,
+                  title: CustomTextWidget(
+                    text: "Documents",
+                    fSize: 18,
+                    fWeight: FontWeight.w400,
+                  ),
+                  children: [
+                    Obx(() {
+                      return Column(
+                        children: controller.documents
+                            .map((doc) => _buildDocumentTile2(doc))
+                            .toList(),
+                      );
+                    }),
+                  ]),
+              ExpansionTile(
+                  tilePadding: const EdgeInsets.all(12.0),
+                  backgroundColor: Colors.grey.shade300,
+                  collapsedBackgroundColor: Colors.white,
+                  collapsedIconColor: Colors.black,
+                  iconColor: Colors.black,
+                  title: CustomTextWidget(
+                    text: "Questionnaires",
+                    fSize: 18,
+                    fWeight: FontWeight.w400,
+                  ),
+                  children: [
+                    Obx(() {
+                      return Column(
+                        children: controller.questions
+                            .map((doc) => _buildQuestionList(doc))
+                            .toList(),
+                      );
+                    }),
+                  ]),
+             // _buildExpandableTile('Questionnaires', questionnairesData),
               const Divider(),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -174,6 +233,24 @@ class _ReviewScreenState extends State<ReviewScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDocumentTile2(MyDocumentModel document) {
+    return ListTile(
+      title: Text(document.name),
+      subtitle: Text(document.fileType),
+    );
+  }
+  Widget _buildUserList(UserModel userModel) {
+    return ListTile(
+      title: Text(userModel.name),
+      subtitle: Text(userModel.email),
+    );
+  }
+  Widget _buildQuestionList(MyQuestionModel questionModel) {
+    return ListTile(
+      title: Text(questionModel.question),
     );
   }
 }

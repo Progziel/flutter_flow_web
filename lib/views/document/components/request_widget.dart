@@ -4,14 +4,14 @@ import 'package:document_management_web/widgets/custom_texxtfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RequestedWidget extends StatefulWidget {
-  const RequestedWidget({super.key});
+class LeadFormWidget extends StatefulWidget {
+  const LeadFormWidget({super.key});
 
   @override
-  State<RequestedWidget> createState() => _RequestedWidgetState();
+  State<LeadFormWidget> createState() => _LeadFormWidgetState();
 }
 
-class _RequestedWidgetState extends State<RequestedWidget> {
+class _LeadFormWidgetState extends State<LeadFormWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,14 +25,17 @@ class _RequestedWidgetState extends State<RequestedWidget> {
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: 2,
+                itemCount: 3,
                 itemBuilder: (context, index) {
-                  return Column(
+                  return const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Card(
                         elevation: 10.0,
-                        child: ExpansionTile(
+                        child: ListTile(
+                          leading: Icon(Icons.edit_document),
+                          //title: ,
+                        ) /*ExpansionTile(
                           leading: const Icon(Icons.edit_document),
                           collapsedBackgroundColor: Colors.grey.shade200,
                           backgroundColor: Colors.white,
@@ -73,9 +76,9 @@ class _RequestedWidgetState extends State<RequestedWidget> {
                               ),
                             )
                           ],
-                        ),
+                        ),*/
                       ),
-                      const Divider()
+                      Divider()
                     ],
                   );
                 },

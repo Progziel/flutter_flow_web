@@ -22,7 +22,7 @@ class _DocumentScreenState extends State<DocumentScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
@@ -52,7 +52,7 @@ class _DocumentScreenState extends State<DocumentScreen>
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     CustomTextWidget(
-                        text: 'Documents', fSize: 20, fWeight: FontWeight.w700),
+                        text: 'Lead Form', fSize: 20, fWeight: FontWeight.w700),
                   ],
                 ),
               ),
@@ -80,25 +80,25 @@ class _DocumentScreenState extends State<DocumentScreen>
                     mouseCursor: MaterialStateMouseCursor.clickable,
                     tabs: const [
                       Tab(
-                        text: 'Request',
+                        text: 'Lead Form',
                         height: 40,
                       ),
                       Tab(
-                        text: 'Recieved',
-                        height: 40,
-                      ),
-                      Tab(
-                        text: 'Sent',
+                        text: 'Review',
                         height: 40,
                       ),
                       Tab(
                         text: 'Completed',
                         height: 40,
                       ),
-                      Tab(
-                        text: 'Pending',
-                        height: 40,
-                      ),
+                      // Tab(
+                      //   text: 'Sent',
+                      //   height: 40,
+                      // ),
+                      // Tab(
+                      //   text: 'Pending',
+                      //   height: 40,
+                      // ),
                     ],
                   ),
                 ),
@@ -107,11 +107,11 @@ class _DocumentScreenState extends State<DocumentScreen>
                 child: TabBarView(
                   controller: _tabController,
                   children: const [
-                    RequestedWidget(),
+                    LeadFormWidget(),
                     RecievedWidget(),
-                    SentWidget(),
                     CompletedWidget(),
-                    PendingWidget()
+                    // SentWidget(),
+                    // PendingWidget()
                   ],
                 ),
               ),

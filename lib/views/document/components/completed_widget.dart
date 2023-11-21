@@ -14,36 +14,6 @@ class CompletedWidget extends StatefulWidget {
 class _CompletedWidgetState extends State<CompletedWidget> {
   final List<Map<String, String>> templates = [
     {
-      'name': 'Business Report Template',
-      'description': 'A template for creating professional business reports.'
-    },
-    {
-      'name': 'Invoice Template',
-      'description':
-          'Generate invoices for your products and services with this template.'
-    },
-    {
-      'name': 'Meeting Agenda Template',
-      'description':
-          'Plan and organize your meetings with this agenda template.'
-    },
-    {
-      'name': 'Employee Handbook Template',
-      'description': 'Create an employee handbook for your company policies.'
-    },
-    {
-      'name': 'Product Catalog Template',
-      'description': 'Build a catalog to showcase your products and services.'
-    },
-    {
-      'name': 'Project Proposal Template',
-      'description': 'Draft project proposals for clients or stakeholders.'
-    },
-    {
-      'name': 'Resume Template',
-      'description': 'Design a professional resume for job applications.'
-    },
-    {
       'name': 'Survey Form Template',
       'description': 'Craft surveys to gather valuable feedback and data.'
     },
@@ -72,34 +42,6 @@ class _CompletedWidgetState extends State<CompletedWidget> {
     {
       'name': 'Event Program Template',
       'description': 'Plan and outline the schedule for an upcoming event.'
-    },
-    {
-      'name': 'Job Application Template',
-      'description':
-          'Simplify the job application process with this form template.'
-    },
-    {
-      'name': 'Business Plan Template',
-      'description':
-          'Outline your business goals and strategies in a comprehensive plan.'
-    },
-    {
-      'name': 'Travel Itinerary Template',
-      'description': 'Organize travel plans and itineraries for trips.'
-    },
-    {
-      'name': 'Recipe Book Template',
-      'description':
-          'Compile your favorite recipes into a personalized recipe book.'
-    },
-    {
-      'name': 'Task List Template',
-      'description': 'Keep track of tasks and to-do lists with this template.'
-    },
-    {
-      'name': 'Family Budget Template',
-      'description':
-          'Manage and budget your family finances with this template.'
     },
   ];
 

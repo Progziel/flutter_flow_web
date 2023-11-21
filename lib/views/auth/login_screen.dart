@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const double _width = 500, _height = 500;
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -19,18 +21,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late Animation<Offset> _animation;
-  static const colorizeColors = [
-    Colors.purple,
-    Colors.blue,
-    Colors.yellow,
-    Colors.red,
-  ];
-
-  static const colorizeTextStyle = TextStyle(
-    fontSize: 50.0,
-    fontFamily: 'Horizon',
-  );
 
   @override
   void initState() {
@@ -40,12 +30,6 @@ class _LoginScreenState extends State<LoginScreen>
       vsync: this,
       duration: const Duration(seconds: 1),
     );
-
-    _animation = Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset.zero)
-        .animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
 
     // Start the animation
     _animationController.forward();
@@ -68,7 +52,44 @@ class _LoginScreenState extends State<LoginScreen>
                 Expanded(flex: 2, child: _login()),
               ],
             ),
+
+      // body: (context.width >= _width && context.height >= _height)
+      //     ? _responsive()
+      //     : SizedBox(
+      //         width: 700,
+      //         height: 700,
+      //         child: _responsive(),
+      //       ),
+      // body: context.isLandscape
+      //     ? Row(
+      //         children: [
+      //           Expanded(flex: 2, child: _logo()),
+      //           Expanded(child: _login()),
+      //         ],
+      //       )
+      //     : Column(
+      //         children: [
+      //           Expanded(child: _logo()),
+      //           Expanded(flex: 2, child: _login()),
+      //         ],
+      //       ),
     );
+  }
+
+  Widget _responsive() {
+    return context.isLandscape
+        ? Row(
+            children: [
+              Expanded(child: Container(color: Colors.red)),
+              Expanded(child: Container(color: Colors.green)),
+            ],
+          )
+        : Column(
+            children: [
+              Expanded(child: Container(color: Colors.red)),
+              Expanded(child: Container(color: Colors.green)),
+            ],
+          );
   }
 
   Widget _logo() {
@@ -78,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen>
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
@@ -133,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen>
                   const SizedBox(height: 16),
                 ],
               ),
-              Image.asset('assets/images/loginpage.png')
+              Expanded(child: Image.asset('assets/images/loginpage.png'))
             ],
           ),
         ),

@@ -1,11 +1,12 @@
+import 'package:document_management_web/controller.dart';
 import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/admin/admin_screen.dart';
+import 'package:document_management_web/views/compose/compose_screen.dart';
 import 'package:document_management_web/views/pricing/pricing_screen.dart';
 import 'package:document_management_web/views/reminders/reminder_screen.dart';
 import 'package:document_management_web/views/settings/settings.dart';
 import 'package:document_management_web/views/templates/templates_screen.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
-import 'package:document_management_web/widgets/dropdown.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'client/client_screen.dart';
-import 'compose/compose_screen.dart';
 import 'dashboard/dashboard_screen.dart';
 import 'document/document_screen.dart';
 
@@ -30,9 +30,11 @@ class _MainScreenState extends State<MainScreen> {
   // bool isMenuTapped = false;
   PageController pageController = PageController();
   SideMenuController sideMenu = SideMenuController();
+  late MyGeneralController controller;
 
   @override
   void initState() {
+    controller = Get.put(MyGeneralController());
     sideMenu.addListener((index) {
       pageController.jumpToPage(index);
     });
@@ -84,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SideMenu(
-                  footer: StorageIndicator(),
+                  // footer: StorageIndicator(),
                   collapseWidth: 100,
                   controller: sideMenu,
                   // title: SideMenuDisplayMode.compact == true ?  CustomButtonWidget(
@@ -142,23 +144,23 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     SideMenuItem(
                       title: 'New Request',
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.arrow_drop_down_rounded,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          const CustomDropDown(
-                              dropDownText: '', color: Colors.white, list: []);
-                        },
-                      ),
+                      // trailing: IconButton(
+                      //   icon: const Icon(
+                      //     Icons.arrow_drop_down_rounded,
+                      //     color: Colors.white,
+                      //   ),
+                      //   onPressed: () {
+                      //     const CustomDropDown(
+                      //         dropDownText: '', color: Colors.white, list: []);
+                      //   },
+                      // ),
                       onTap: (index, _) {
                         sideMenu.changePage(index);
                       },
                       icon: const Icon(Icons.description),
                     ),
                     SideMenuItem(
-                      title: 'Documents',
+                      title: 'Lead Form',
                       onTap: (index, _) {
                         sideMenu.changePage(index);
                       },
@@ -221,7 +223,7 @@ class _MainScreenState extends State<MainScreen> {
                     controller: pageController,
                     children: const [
                       DashboardScreen(),
-                      ComposeScreen(),
+                      NewRequestScreen(),
                       DocumentScreen(),
                       TemplateScreen(),
                       ClientScreen(),

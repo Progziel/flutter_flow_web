@@ -1,3 +1,4 @@
+import 'package:document_management_web/models/template_model.dart';
 import 'package:document_management_web/widgets/custom_button.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:document_management_web/widgets/custom_texxtfield.dart';
@@ -5,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DueDateAndRemindersForm extends StatefulWidget {
-  const DueDateAndRemindersForm({super.key});
+  const DueDateAndRemindersForm({Key? key}) : super(key: key);
 
   @override
   _DueDateAndRemindersFormState createState() =>
@@ -13,38 +14,8 @@ class DueDateAndRemindersForm extends StatefulWidget {
 }
 
 class _DueDateAndRemindersFormState extends State<DueDateAndRemindersForm> {
-  DateTime? selectedDueDate;
+  DueDateAndRemindersModel? dueDateAndReminders;
   List<DateTime> selectedReminderDates = [];
-
-  Future<void> _selectDueDate() async {
-    final pickedDueDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDueDate != null) {
-      setState(() {
-        selectedDueDate = pickedDueDate;
-      });
-    }
-  }
-
-  Future<void> _selectReminderDate() async {
-    final pickedReminderDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedReminderDate != null) {
-      setState(() {
-        selectedReminderDates.add(pickedReminderDate);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,9 +93,7 @@ class _DueDateAndRemindersFormState extends State<DueDateAndRemindersForm> {
                       ),
                     ),
                   )
-                : Center(
-                    child: CustomTextWidget(
-                        text: 'No dates for reminder selected')),
+                : Center(child: CustomTextWidget(text: 'No reminder selected')),
           ],
         ),
       ),
@@ -160,10 +129,10 @@ class _DueDateAndRemindersFormState extends State<DueDateAndRemindersForm> {
           fSize: 16.0,
           fWeight: FontWeight.w700,
         ),
-        selectedDueDate != null
+        dueDateAndReminders?.dueDate != null
             ? CustomTextWidget(
                 text:
-                    'The due date for sending the documents is ${selectedDueDate!.day.toString()}-${selectedDueDate!.month.toString()}-${selectedDueDate!.year.toString()}',
+                    'The due date for sending the documents is ${dueDateAndReminders?.dueDate?.day.toString()}-${dueDateAndReminders?.dueDate?.month.toString()}-${dueDateAndReminders?.dueDate?.year.toString()}',
                 maxLines: 3,
               )
             : CustomTextWidget(text: 'No Due Date selected'),
@@ -181,5 +150,38 @@ class _DueDateAndRemindersFormState extends State<DueDateAndRemindersForm> {
   CustomButtonWidget _dueDateButton() {
     return CustomButtonWidget(
         width: 140, buttonText: 'Select Due Date', onTap: _selectDueDate);
+  }
+
+  Future<void> _selectDueDate() async {
+    final pickedDueDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDueDate != null) {
+      setState(() {
+        dueDateAndReminders = DueDateAndRemindersModel(
+          dueDate: pickedDueDate,
+          reminders: [],
+        );
+      });
+    }
+  }
+
+  Future<void> _selectReminderDate() async {
+    final pickedReminderDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedReminderDate != null) {
+      setState(() {
+        selectedReminderDates.add(pickedReminderDate);
+      });
+    }
   }
 }

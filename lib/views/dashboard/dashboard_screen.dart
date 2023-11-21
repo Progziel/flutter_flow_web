@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:animations/animations.dart';
+import 'package:document_management_web/controller.dart';
 import 'package:document_management_web/models/charts_model.dart';
 import 'package:document_management_web/models/user_model.dart';
 import 'package:document_management_web/utilities/constants.dart';
@@ -20,6 +21,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  late MyGeneralController generalController;
   late List<ChartData> data;
 
   //late TooltipBehavior _tooltip;
@@ -34,6 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
+    generalController = Get.find<MyGeneralController>();
     _chartData = <ChartData>[
       ChartData('Request Dynamics', 55, 40, 45, 48),
       ChartData('Reminder Analysis', 33, 45, 54, 28),
@@ -75,12 +78,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         openColor: Colors.transparent,
                         closedColor: Colors.transparent,
                         transitionDuration: const Duration(milliseconds: 500),
-                        closedBuilder: (context, action) =>
-                            const CustomAnalyticsContainer(
+                        closedBuilder: (context, action) => Obx(() =>
+                            CustomAnalyticsContainer(
                                 analyticsType: 'Total Users',
-                                analyticsValue: '42',
+                                analyticsValue:
+                                    generalController.users.length.toString(),
                                 analyticsPercentage: '10',
-                                icon: Icons.arrow_upward_outlined),
+                                icon: Icons.arrow_upward_outlined)),
                         openBuilder: (context, action) {
                           return Scaffold(
                             appBar: AppBar(),
@@ -139,85 +143,88 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ));
   }
 
-  Padding UsersList() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomTextWidget(
-                text: 'Users',
-                fSize: 22.0,
-                fWeight: FontWeight.w700,
-              ),
-              CustomButtonWidget(
-                buttonText: 'Add User',
-                onTap: () {
-                  _addUserDialog(context);
-                },
-              )
-            ],
-          ),
-          Expanded(
-            child: Container(
-              //height: 400,
-              color: Colors.white30,
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: users.length,
-                itemBuilder: (context, index) {
-                  final user = users[index];
-                  return Column(
-                    children: [
-                      Card(
-                        elevation: 10.0,
-                        child: ExpansionTile(
-                          leading: const Icon(Icons.person_2_rounded),
-                          collapsedBackgroundColor: Colors.grey.shade200,
-                          backgroundColor: Colors.white,
-                          title: CustomTextWidget(
-                            text: user.name,
-                            fSize: 16.0,
-                            fWeight: FontWeight.w700,
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomTextWidget(text: user.email),
-                              CustomTextWidget(text: user.number),
-                            ],
-                          ),
+  Container UsersList() {
+    return Container(
+      color: AppAssets.backgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomTextWidget(
+                  text: 'Users',
+                  fSize: 22.0,
+                  fWeight: FontWeight.w700,
+                ),
+                CustomButtonWidget(
+                  buttonText: 'Add User',
+                  onTap: () {
+                    _addUserDialog(context);
+                  },
+                )
+              ],
+            ),
+            Expanded(
+              child: Container(
+                //height: 400,
+                color: Colors.white30,
+                child: Obx(() => ListView.builder(
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: generalController.users.length,
+                      itemBuilder: (context, index) {
+                        final user = generalController.users[index];
+                        return Column(
                           children: [
-                            Align(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                            Card(
+                              child: ExpansionTile(
+                                leading: const Icon(Icons.person_2_rounded),
+                                collapsedBackgroundColor: Colors.grey.shade200,
+                                backgroundColor: Colors.white,
+                                title: CustomTextWidget(
+                                  text: user.name,
+                                  fSize: 16.0,
+                                  fWeight: FontWeight.w700,
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomTextWidget(text: user.email),
+                                    CustomTextWidget(text: user.number),
+                                  ],
+                                ),
                                 children: [
-                                  CustomButtonWidget(
-                                    buttonText: 'Edit',
-                                    onTap: () {},
-                                  ),
-                                  CustomButtonWidget(
-                                    buttonText: 'Delete',
-                                    buttonColor: Colors.red,
-                                    onTap: () {},
-                                  ),
+                                  Align(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        CustomButtonWidget(
+                                          buttonText: 'Edit',
+                                          onTap: () {},
+                                        ),
+                                        CustomButtonWidget(
+                                          buttonText: 'Delete',
+                                          buttonColor: Colors.red,
+                                          onTap: () => generalController
+                                              .deleteUser(index),
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
-                            )
+                            ),
+                            const Divider()
                           ],
-                        ),
-                      ),
-                      const Divider()
-                    ],
-                  );
-                },
+                        );
+                      },
+                    )),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -370,15 +377,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 CustomButtonWidget(
                   buttonText: 'Add User',
                   onTap: () {
-                    setState(() {
-                      users.add(
-                        UserModel(
-                          name: nameController.text,
-                          email: emailController.text,
-                          number: numberController.text.toString(),
-                        ),
-                      );
-                    });
+                    generalController.addUser(UserModel(
+                      name: nameController.text,
+                      email: emailController.text,
+                      number: numberController.text.toString(),
+                    ));
                     Get.back();
                   },
                 ),

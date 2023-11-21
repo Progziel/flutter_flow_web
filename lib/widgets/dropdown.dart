@@ -9,13 +9,16 @@ class CustomDropDown extends StatefulWidget {
   final double? width;
   final Color color;
   final List<String> list;
+  final ValueChanged<String>? onChanged;
 
-  const CustomDropDown(
-      {super.key,
-      required this.dropDownText,
-      this.width,
-      required this.color,
-      required this.list});
+  const CustomDropDown({
+    Key? key,
+    required this.dropDownText,
+    this.width,
+    required this.color,
+    required this.list,
+    this.onChanged,
+  }) : super(key: key);
 
   @override
   State<CustomDropDown> createState() => _CustomDropDownState();
@@ -23,6 +26,7 @@ class CustomDropDown extends StatefulWidget {
 
 class _CustomDropDownState extends State<CustomDropDown> {
   String? selectedValue;
+
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
@@ -60,15 +64,16 @@ class _CustomDropDownState extends State<CustomDropDown> {
           setState(() {
             selectedValue = value;
           });
+          if (widget.onChanged != null) {
+            widget.onChanged!(value!);
+          }
         },
         buttonStyleData: ButtonStyleData(
           height: 50,
-          width: context.width * 0.3,
+          width: context.width * 0.4,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: widget.color,
-            //  border: Border.all(color: Colors.black45),
-            //borderRadius: BorderRadius.circular(5),
           ),
         ),
         iconStyleData: const IconStyleData(

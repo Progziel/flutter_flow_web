@@ -13,6 +13,7 @@ class ClientScreen extends StatefulWidget {
 }
 
 class _ClientScreenState extends State<ClientScreen> {
+  ExpansionTileController expansionTileController = ExpansionTileController();
   final List<Map<String, dynamic>> templates = [
     {
       'name': 'Business Report Template',
@@ -43,7 +44,6 @@ class _ClientScreenState extends State<ClientScreen> {
       ],
     },
   ];
-
   int currentQuestionIndex = 0;
   bool isExpanded = false;
 
@@ -57,70 +57,97 @@ class _ClientScreenState extends State<ClientScreen> {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
-        child: ExpansionTile(
-          collapsedBackgroundColor: Colors.grey.shade100,
-          backgroundColor: Colors.grey.shade200,
-          onExpansionChanged: (value) {
-            setState(() {
-              isExpanded = value;
-            });
-          },
-          title: CustomTextWidget(
-            text: isExpanded ? 'Collapse' : 'Expand',
-            fSize: 20.0,
-            fWeight: FontWeight.w600,
-          ),
-          leading: const Icon(Icons.edit_document),
+        child: Column(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            Row(
               children: [
-                Image.asset(
-                  'assets/images/app-logo.png',
-                  height: 150,
-                ),
-                CustomTextWidget(
-                  text:
-                      'Please upload the following documents before the expiry date of 31-November-2023',
-                  fSize: 16.0,
-                  fWeight: FontWeight.w400,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 15.0),
-                Container(
-                  height: Get.height * 0.4,
-                  width: context.width * 0.5,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 20.0,
-                  ),
-                  color: Colors.grey.shade300,
-                  child: Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: templates.length,
-                      itemBuilder: (context, index) {
-                        final template = templates[index];
-                        return Column(
-                          children: [
-                            Column(
-                              children:
-                                  _buildExpansionTiles(template['questions']),
-                            ),
-                            const Divider(),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15.0),
                 CustomButtonWidget(
-                  // width: context.width * 0.1,
-                  buttonText: 'Submit',
-                  onTap: () {},
+                  buttonText: 'Expand All',
+                  onTap: () {
+                    setState(() {
+                      isExpanded = true;
+                      expansionTileController.expand();
+                    });
+                  },
+                ),
+                CustomButtonWidget(
+                  buttonText: 'Collapse All',
+                  onTap: () {
+                    setState(() {
+                      isExpanded = false;
+                      expansionTileController.collapse();
+                    });
+                  },
+                )
+              ],
+            ),
+            ExpansionTile(
+              collapsedBackgroundColor: Colors.grey.shade100,
+              backgroundColor: Colors.grey.shade200,
+              controller: expansionTileController,
+              onExpansionChanged: (value) {
+                setState(() {
+                  isExpanded = value;
+                });
+              },
+              title: CustomTextWidget(
+                text: isExpanded ? 'Collapse' : 'Expand',
+                fSize: 20.0,
+                fWeight: FontWeight.w600,
+              ),
+              leading: const Icon(Icons.edit_document),
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Image.asset(
+                      'assets/images/app-logo.png',
+                      height: 150,
+                    ),
+                    CustomTextWidget(
+                      text:
+                          'Please upload the following documents before the expiry date of 31-November-2023',
+                      fSize: 16.0,
+                      fWeight: FontWeight.w400,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 15.0),
+                    Container(
+                      height: Get.height * 0.3,
+                      width: context.width * 0.5,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 20.0,
+                      ),
+                      color: Colors.grey.shade300,
+                      child: Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount: templates.length,
+                          itemBuilder: (context, index) {
+                            final template = templates[index];
+                            return Column(
+                              children: [
+                                Column(
+                                  children: _buildExpansionTiles(
+                                      template['questions']),
+                                ),
+                                const Divider(),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15.0),
+                    CustomButtonWidget(
+                      // width: context.width * 0.1,
+                      buttonText: 'Submit',
+                      onTap: () {},
+                    ),
+                  ],
                 ),
               ],
             ),

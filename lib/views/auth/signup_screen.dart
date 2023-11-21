@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:document_management_web/responsive.dart';
 import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/auth/login_screen.dart';
 import 'package:document_management_web/widgets/custom_button.dart';
@@ -7,6 +8,8 @@ import 'package:document_management_web/widgets/custom_texxtfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+const double _width = 300, _height = 300;
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -36,19 +39,20 @@ class _SignupScreenState extends State<SignupScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      body: context.isLandscape
-          ? Row(
-              children: [
-                Expanded(flex: 2, child: _logo()),
-                Expanded(child: _signUp()),
-              ],
-            )
-          : Column(
-              children: [
-                Expanded(child: _logo()),
-                Expanded(flex: 2, child: _signUp()),
-              ],
-            ),
+      body: MyResponsiveScreen(
+          child: context.isLandscape
+              ? Row(
+                  children: [
+                    Expanded(flex: 2, child: _logo()),
+                    Expanded(child: _signUp()),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Expanded(child: _logo()),
+                    Expanded(flex: 2, child: _signUp()),
+                  ],
+                )),
     );
   }
 

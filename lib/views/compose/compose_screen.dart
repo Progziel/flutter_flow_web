@@ -2,8 +2,8 @@ import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/compose/components/stepper_widget.dart';
 import 'package:flutter/material.dart';
 
-class ComposeScreen extends StatelessWidget {
-  const ComposeScreen({super.key});
+class NewRequestScreen extends StatelessWidget {
+  const NewRequestScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -7,12 +7,16 @@ import 'package:document_management_web/views/compose/components/date_selection.
 import 'package:document_management_web/views/compose/components/formdata.dart';
 import 'package:document_management_web/views/compose/components/review.dart';
 import 'package:document_management_web/views/compose/components/user_data_table.dart';
+import 'package:document_management_web/views/dashboard/components/groups.dart';
 import 'package:document_management_web/widgets/custom_button.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:document_management_web/widgets/custom_texxtfield.dart';
+import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
+
+import '../../main_screen.dart';
 
 class StepperWidget extends StatefulWidget {
   const StepperWidget({super.key});
@@ -24,39 +28,37 @@ class StepperWidget extends StatefulWidget {
 class StepperWidgetState extends State<StepperWidget> {
   int _currentStep = 0;
   final TextEditingController _templateNameController = TextEditingController();
-  late QuillEditorController instructionController;
   MyGeneralController generalController = Get.find<MyGeneralController>();
   MyTemplateModel? myTemplateModel;
   MyQuestionModel? myQuestionModel;
-  final List<bool> _completedSteps = [false, false, false, false,false];
+  final List<bool> _completedSteps = [false, false, false, false, false];
 
   ///---quill
   final _toolbarColor = Colors.grey.shade200;
-  bool _hasFocus = false;
-
-  void unFocusEditor() => instructionController.unFocus();
-
-  // void setHtmlText(String text) async {
-  //   await instructionController.setText(text);
+  // bool _hasFocus = false;
+  //
+  // void unFocusEditor() => instructionController.unFocus();
+  //
+  // // void setHtmlText(String text) async {
+  // //   await instructionController.setText(text);
+  // // }
+  //
+  // void getHtmlText() async {
+  //   String? htmlText = await instructionController.getText();
+  //   debugPrint(htmlText);
   // }
 
-  void getHtmlText() async {
-    String? htmlText = await instructionController.getText();
-    debugPrint(htmlText);
-  }
-
-
-@override
+  @override
   void initState() {
-  instructionController = QuillEditorController();
- // instructionController.clear();
+    generalController.setQuillController();
+    // instructionController.clear();
 
-  instructionController.onTextChanged((text) {
-    debugPrint('listening to $text');
-  });
-  instructionController.onEditorLoaded(() {
-    debugPrint('Editor Loaded :)');
-  });
+    // instructionController.onTextChanged((text) {
+    //   debugPrint('listening to $text');
+    // });
+    // instructionController.onEditorLoaded(() {
+    //   debugPrint('Editor Loaded :)');
+    // });
     // TODO: implement initState
     super.initState();
   }
@@ -64,13 +66,12 @@ class StepperWidgetState extends State<StepperWidget> {
   @override
   void dispose() {
     /// please do not forget to dispose the controller
-    instructionController.dispose();
+    // _instructionController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Theme(
       data: ThemeData(
         canvasColor: Colors.transparent,
@@ -108,22 +109,30 @@ class StepperWidgetState extends State<StepperWidget> {
                 ),
               ),
               CustomButtonWidget(
-                buttonText: _currentStep >=  4 ? 'Send Request' : 'Next',
-                onTap: () {
-                  details.onStepContinue!();
-                  if (_currentStep > 4) {
+                buttonText: _currentStep < 4 ? 'Next' : 'Send Request',
+                onTap: () async {
+                  if (_currentStep < 4) {
+                    details.onStepContinue!();
+
+                    print('object');
+                    //
+                    // print('rizwan added: ${generalController.selectedUsers.length}');
                     // Generate a random link
-                    String randomLink = generateRandomLink();
+                    // String randomLink = generateRandomLink();
+                    //
+                    // // Show the random link to the user
+                    // final snackBar = SnackBar(
+                    //   duration: const Duration(seconds: 1),
+                    //   backgroundColor: Colors.green,
+                    //   content: Text(
+                    //       'Request sent successfully. Random link: $randomLink'),
+                    // );
+                    //
+                    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    generalController.addLeadForm();
 
-                    // Show the random link to the user
-                    final snackBar = SnackBar(
-                      duration: const Duration(seconds: 1),
-                      backgroundColor: Colors.green,
-                      content: Text(
-                          'Request sent successfully. Random link: $randomLink'),
-                    );
-
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    sideMenu.changePage(2);
                   }
                 },
               ),
@@ -144,15 +153,13 @@ class StepperWidgetState extends State<StepperWidget> {
             title: CustomTextWidget(text: ''),
             state: _currentStep >= 1 ? StepState.complete : StepState.indexed,
             content: Container(
-               height: context.height * 0.55,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.all(16.0),
-              child: _flutterQuill()
-
-            ),
+                height: context.height * 0.55,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Colors.white,
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: _flutterQuill()),
           ),
           //Step2
           Step(
@@ -162,7 +169,6 @@ class StepperWidgetState extends State<StepperWidget> {
             state: _currentStep >= 2 ? StepState.complete : StepState.indexed,
             content: Container(
               height: context.height * 0.55,
-
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: Colors.white,
@@ -187,7 +193,7 @@ class StepperWidgetState extends State<StepperWidget> {
           //Step2
           Step(
             isActive: _currentStep >= 2,
-            label: CustomTextWidget(text: 'User Selection'),
+            label: CustomTextWidget(text: 'Client Selection'),
             title: CustomTextWidget(text: ''),
             state: _currentStep >= 3 ? StepState.complete : StepState.indexed,
             content: Container(
@@ -251,16 +257,17 @@ class StepperWidgetState extends State<StepperWidget> {
             CustomButtonWidget(
               buttonText: 'Save',
               onTap: () async {
-                generalController.addTemplate(
-                    MyTemplateModel(name: _templateNameController.text,
-                        documents: generalController.documents ,
-                        questions:generalController.questions,
-                        description:"" ,
-                        instruction: await instructionController.getText(),
-                        createdAt: DateTime.now()));
+                generalController.addTemplate(MyTemplateModel(
+                    name: _templateNameController.text,
+                    documents: generalController.documents,
+                    questions: generalController.questions1,
+                    description: "",
+                    instruction:
+                        await controller.instructionController.getText(),
+                    createdAt: DateTime.now()));
 
                 _saveTemplate();
-               // print(object)
+                // print(object)
                 Get.back();
               },
             ),
@@ -271,7 +278,6 @@ class StepperWidgetState extends State<StepperWidget> {
   }
 
   void _saveTemplate() {
-
     // Your logic to save the template goes here
 
     // Show a SnackBar after saving
@@ -298,109 +304,49 @@ class StepperWidgetState extends State<StepperWidget> {
     return randomLink;
   }
 
-Widget _flutterQuill(){
-    return Column(
-      children: [
-        ToolBar(
-          toolBarColor: _toolbarColor,
-          padding: const EdgeInsets.all(8),
-          iconSize: 25,
-          iconColor: Colors.black87,
-          activeIconColor: AppAssets.primaryColor,
-          controller: instructionController,
-          crossAxisAlignment: WrapCrossAlignment.start,
-          direction: Axis.horizontal,
-          customButtons: [
-
-
-
-          ],
+  Widget _flutterQuill() {
+    return Column(children: [
+      ToolBar(
+        toolBarColor: _toolbarColor,
+        padding: const EdgeInsets.all(8),
+        iconSize: 25,
+        iconColor: Colors.black87,
+        activeIconColor: AppAssets.primaryColor,
+        controller: controller.instructionController,
+        crossAxisAlignment: WrapCrossAlignment.start,
+        direction: Axis.horizontal,
+        customButtons: [],
+      ),
+      Expanded(
+        child: QuillHtmlEditor(
+          text: "",
+          hintText: 'Type your instructions',
+          controller: controller.instructionController,
+          isEnabled: true,
+          minHeight: 300,
+          //   textStyle: _editorTextStyle,
+          //   hintTextStyle: _hintTextStyle,
+          hintTextAlign: TextAlign.start,
+          padding: const EdgeInsets.only(left: 10, top: 5),
+          hintTextPadding: EdgeInsets.zero,
+          backgroundColor: Colors.white,
+          onFocusChanged: (hasFocus) => debugPrint('has focus $hasFocus'),
+          onTextChanged: (text) => debugPrint('widget text change $text'),
+          onEditorCreated: () => debugPrint('Editor has been loaded'),
+          onEditingComplete: (s) => debugPrint('Editing completed $s'),
+          onEditorResized: (height) => debugPrint('Editor resized $height'),
+          onSelectionChanged: (sel) => debugPrint('${sel.index},${sel.length}'),
+          loadingBuilder: (context) {
+            return const Center(
+                child: CircularProgressIndicator(
+              strokeWidth: 0.4,
+            ));
+          },
         ),
-        Expanded(
-          child: QuillHtmlEditor(
-           // text: "<h1>Hello</h1>This is a quill html editor example 😊",
-            hintText: 'Type your instructions',
-            controller: instructionController,
-            isEnabled: true,
-            minHeight: 300,
-            //   textStyle: _editorTextStyle,
-            //   hintTextStyle: _hintTextStyle,
-            hintTextAlign: TextAlign.start,
-            padding: const EdgeInsets.only(left: 10, top: 5),
-            hintTextPadding: EdgeInsets.zero,
-            backgroundColor: Colors.white,
-            onFocusChanged: (hasFocus) => debugPrint('has focus $hasFocus'),
-            onTextChanged: (text) => debugPrint('widget text change $text'),
-            onEditorCreated: () => debugPrint('Editor has been loaded'),
-            onEditingComplete: (s) => debugPrint('Editing completed $s'),
-            onEditorResized: (height) =>
-                debugPrint('Editor resized $height'),
-            onSelectionChanged: (sel) =>
-                debugPrint('${sel.index},${sel.length}'),
-            loadingBuilder: (context) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 0.4,
-                  ));},
-          ),
-        ),
-Container(
-  width: double.maxFinite,
-  color: _toolbarColor,
-  padding: const EdgeInsets.all(8),
-  child: Wrap(
-  children: [
-  // textButton(
-  // text: 'Set Text',
-  // onPressed: () {
-  // setHtmlText("${instructionController.text}");
-  // }),
-  textButton(
-  text: 'Get Text',
-  onPressed: () {
-  getHtmlText();
-  }),
+      ),
+    ]);
+  }
 
-
-
-  textButton(
-  text: 'Undo',
-  onPressed: () {
-  instructionController.undo();
-  }),
-  textButton(
-  text: 'Redo',
-  onPressed: () {
-  instructionController.redo();
-  }),
-  textButton(
-  text: 'Clear History',
-  onPressed: () async {
-  instructionController.clearHistory();
-  }),
-  textButton(
-  text: 'Clear Editor',
-  onPressed: () {
-  instructionController.clear();
-  }),
-  textButton(
-  text: 'Get Delta',
-  onPressed: () async {
-  var delta = await instructionController.getDelta();
-  debugPrint('delta');
- // debugPrint(jsonEncode(delta));
-  }),
-  textButton(
-  text: 'Set Delta',
-  onPressed: () {
-
-  }),
-  ],
-  ),
-  ),
-  ]);
-
-}
   Widget textButton({required String text, required VoidCallback onPressed}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -414,6 +360,4 @@ Container(
           )),
     );
   }
-
-
 }

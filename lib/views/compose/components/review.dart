@@ -148,7 +148,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   children: [
                     Obx(() {
                       return Column(
-                        children: controller.users
+                        children: controller.selectedUsers
                             .map((users) => _buildUserList(users))
                             .toList(),
                       );
@@ -188,7 +188,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   children: [
                     Obx(() {
                       return Column(
-                        children: controller.questions
+                        children: controller.questions1
                             .map((doc) => _buildQuestionList(doc))
                             .toList(),
                       );

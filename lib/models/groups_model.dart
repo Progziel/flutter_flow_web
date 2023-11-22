@@ -1,12 +1,12 @@
-class UserModel {
-  final String name;
-  final String email;
-  final String number;
+import 'user_model.dart';
 
-  UserModel({
+class GroupModel {
+  final String name;
+  final List<UserModel> groupUsers;
+
+  GroupModel({
     required this.name,
-    required this.email,
-    required this.number,
+    required this.groupUsers,s
   });
 }
 

@@ -1,30 +1,29 @@
 import 'package:document_management_web/controller.dart';
+import 'package:document_management_web/models/user_model.dart';
 import 'package:document_management_web/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UserTable extends StatefulWidget {
-  const UserTable({Key? key}) : super(key: key);
-
+  const UserTable({Key? key, required this.users, required this.onSelected}) : super(key: key);
+  final List<UserModel> users;
+  final Function onSelected;
   @override
   _UserTableState createState() => _UserTableState();
 }
 
 class _UserTableState extends State<UserTable> {
-  late MyGeneralController generalController;
+  late List<UserModel> selectedUsers = [];
   bool selectAll = false;
 
   @override
   void initState() {
     super.initState();
-    generalController = Get.find<MyGeneralController>();
   }
 
   @override
   Widget build(BuildContext context) {
-    var users = generalController.users;
     return Container(
-      height: 100,
       decoration: BoxDecoration(border: Border.all(color: Colors.black)),
       child: SingleChildScrollView(
         child: DataTable(
@@ -60,16 +59,20 @@ class _UserTableState extends State<UserTable> {
                 onChanged: (value) {
                   setState(() {
                     selectAll = value!;
-                    for (var data in users) {
-                      data.selected = value;
+                    selectedUsers.clear();
+                    if (value) {
+                      for (int i = 0; i < widget.users.length; i++) {
+                        selectedUsers.add(widget.users[i]);
+                      }
                     }
+                    widget.onSelected(selectedUsers);
                   });
                 },
               ),
             ),
           ],
           rows: [
-            for (int index = 0; index < users.length; index++)
+            for (int index = 0; index < widget.users.length; index++)
               DataRow(
                 mouseCursor: MaterialStateMouseCursor.clickable,
                 color: MaterialStateColor.resolveWith((states) {
@@ -82,17 +85,20 @@ class _UserTableState extends State<UserTable> {
                     Text((index + 1).toString()),
                   ), // S.No column
 
-                  DataCell(Text(users[index].name)),
-                  DataCell(Text(users[index].email)),
-                  DataCell(Text(users[index].number)),
+                  DataCell(Text(widget.users[index].name)),
+                  DataCell(Text(widget.users[index].email)),
+                  DataCell(Text(widget.users[index].number)),
                   DataCell(
                     Checkbox(
                       activeColor: AppAssets.primaryColor,
-                      value: users[index].selected,
+                      value: selectedUsers.contains(widget.users[index]),
                       onChanged: (value) {
                         setState(() {
-                          users[index].selected = value!;
+                          (value != null && !value)
+                              ? selectedUsers.removeAt(index)
+                              : selectedUsers.add(widget.users[index]);
                         });
+                        widget.onSelected(selectedUsers);
                       },
                     ),
                   ),

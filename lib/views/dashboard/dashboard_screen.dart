@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'components/groups.dart';
+
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -80,7 +82,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         transitionDuration: const Duration(milliseconds: 500),
                         closedBuilder: (context, action) => Obx(() =>
                             CustomAnalyticsContainer(
-                                analyticsType: 'Total Users',
+                                analyticsType: 'Total Clients',
                                 analyticsValue:
                                     generalController.users.length.toString(),
                                 analyticsPercentage: '10',
@@ -99,11 +101,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               0), // Set border radius to 0
                         ),
                       ),
-                      const CustomAnalyticsContainer(
-                          analyticsType: 'Total Documents',
-                          analyticsValue: '26',
-                          analyticsPercentage: '-7',
-                          icon: Icons.arrow_downward_outlined),
+                      OpenContainer(
+                        openColor: Colors.transparent,
+                        closedColor: Colors.transparent,
+                        transitionDuration: const Duration(milliseconds: 500),
+                        closedBuilder: (context, action) => Obx(() =>
+                            CustomAnalyticsContainer(
+                                analyticsType: 'Total Groups',
+                                analyticsValue:
+                                generalController.groups.length.toString(),
+                                analyticsPercentage: '10',
+                                icon: Icons.arrow_upward_outlined)),
+                        openBuilder: (context, action) {
+                          return Scaffold(
+                            appBar: AppBar(),
+                            body: totalGroups(context),
+                          );
+                        },
+                        openElevation: 0,
+                        closedElevation:
+                        0, // Set elevation to 0 to remove the shadow
+                        closedShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              0), // Set border radius to 0
+                        ),
+                      ),
                       const CustomAnalyticsContainer(
                           analyticsType: 'Total Completed',
                           analyticsValue: '26',
@@ -154,12 +176,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomTextWidget(
-                  text: 'Users',
+                  text: 'Clients',
                   fSize: 22.0,
                   fWeight: FontWeight.w700,
                 ),
                 CustomButtonWidget(
-                  buttonText: 'Add User',
+                  buttonText: 'Add Client',
                   onTap: () {
                     _addUserDialog(context);
                   },
@@ -336,7 +358,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         return AlertDialog(
           title: Center(
             child: CustomTextWidget(
-              text: 'Add User',
+              text: 'Client Registration',
               fSize: 18.0,
               fWeight: FontWeight.w700,
             ),
@@ -375,7 +397,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   onTap: () {},
                 ),
                 CustomButtonWidget(
-                  buttonText: 'Add User',
+                  buttonText: 'Add Client',
                   onTap: () {
                     generalController.addUser(UserModel(
                       name: nameController.text,

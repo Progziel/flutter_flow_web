@@ -110,91 +110,90 @@ class _FormDataWidgetState extends State<FormDataWidget>
           child: TabBarView(
             controller: _tabController,
             children: [
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: generalController.documents.length,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
 
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: Card(
-                            child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        style: DefaultTextStyle.of(context)
-                                            .style,
-                                        children: [
-                                          TextSpan(
-                                            text: '${index + 1}. ',
-                                          ),
-                                          // TextSpan(
-                                          //   text: 'Document Name: ',
-                                          //   style: GoogleFonts.poppins(
-                                          //     fontSize: 14,
-                                          //     fontWeight: FontWeight.w600,
-                                          //     color: Colors.black,
-                                          //   ),
-                                          // ),
-                                          TextSpan(
-                                            text: generalController
-                                                .documents[index].name,
-                                          ),
-                                        ],
-                                      ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: generalController.documents.length,
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: Card(
+                          child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context)
+                                          .style,
+                                      children: [
+                                        TextSpan(
+                                          text: '${index + 1}. ',
+                                        ),
+                                        // TextSpan(
+                                        //   text: 'Document Name: ',
+                                        //   style: GoogleFonts.poppins(
+                                        //     fontSize: 14,
+                                        //     fontWeight: FontWeight.w600,
+                                        //     color: Colors.black,
+                                        //   ),
+                                        // ),
+                                        TextSpan(
+                                          text: generalController
+                                              .documents[index].name,
+                                        ),
+                                      ],
                                     ),
-                                    RichText(
-                                      text: TextSpan(
-                                        style: DefaultTextStyle.of(context)
-                                            .style,
-                                        children: [
-                                          TextSpan(
-                                            text: 'Document Type: ',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                            ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      style: DefaultTextStyle.of(context)
+                                          .style,
+                                      children: [
+                                        TextSpan(
+                                          text: 'Document Type: ',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black,
                                           ),
-                                          TextSpan(
-                                            text: generalController
-                                                .documents[index].fileType,
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                        TextSpan(
+                                          text: generalController
+                                              .documents[index].fileType,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                )),
-                          ),
+                                  ),
+                                ],
+                              )),
                         ),
-                        IconButton(
-                            onPressed: () {
-                              setState(() {
-                                generalController.deleteDocument(index);
-                              });
-                            },
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            ))
-                      ],
-                    );
-                  },
-                ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              generalController.deleteDocument(index);
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ))
+                    ],
+                  );
+                },
               ) ,
-              Expanded(child: ListView.builder(
-                  itemCount: generalController.questions.length,
+              ListView.builder(
+                  itemCount: generalController.questions1.length,
                   shrinkWrap: true,
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, index){
-                    final questions = generalController.questions[index];
+                    final questions = generalController.questions1[index];
                     return Row(
                       children: [
                         Expanded(
@@ -246,7 +245,7 @@ class _FormDataWidgetState extends State<FormDataWidget>
                         IconButton(
                             onPressed: () {
                               setState(() {
-                                generalController.deleteQuestion(index);
+                                generalController.deleteQuestion1(index);
                               });
                             },
                             icon: const Icon(
@@ -255,7 +254,7 @@ class _FormDataWidgetState extends State<FormDataWidget>
                             ))
                       ],
                     );
-                  }))
+                  })
             ],
           ),
         ),

@@ -1,9 +1,12 @@
+import 'package:document_management_web/controller.dart';
 import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/compose/components/users_table.dart';
 import 'package:document_management_web/widgets/custom_text_widget.dart';
 import 'package:document_management_web/widgets/custom_texxtfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../models/user_model.dart';
 
 class UserDataTable extends StatefulWidget {
   const UserDataTable({
@@ -17,6 +20,7 @@ class UserDataTable extends StatefulWidget {
 class _UserDataTableState extends State<UserDataTable>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
+  MyGeneralController _controller = Get.find<MyGeneralController>();
 
   @override
   void initState() {
@@ -54,8 +58,8 @@ class _UserDataTableState extends State<UserDataTable>
             indicatorSize: TabBarIndicatorSize.tab,
             tabs: [
               Tab(height: 40, child: CustomTextWidget(text: 'Entry')),
-              Tab(height: 40, child: CustomTextWidget(text: 'Individual')),
-               Tab(height: 40, child: CustomTextWidget(text: 'Groups')),
+              Tab(height: 40, child: CustomTextWidget(text: 'Clients')),
+              Tab(height: 40, child: CustomTextWidget(text: 'Groups')),
             ],
           ),
         ),
@@ -64,11 +68,17 @@ class _UserDataTableState extends State<UserDataTable>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: const [
-              UserTable(),
-              IndividualRequest(),
-
-               UserTable(),
+            children: [
+              const IndividualRequest(),
+              UserTable(
+                users: _controller.users,
+                onSelected: (List<UserModel> list) =>
+                    _controller.setSelectedQuestions(list),
+              ),
+              UserTable(
+                users: _controller.users,
+                onSelected: (List<UserModel> list) {},
+              ),
             ],
           ),
         ),

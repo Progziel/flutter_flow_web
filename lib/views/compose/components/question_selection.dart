@@ -17,11 +17,10 @@ class QuestionnaireForm extends StatefulWidget {
 
 class _QuestionnaireFormState extends State<QuestionnaireForm> {
   List<MyQuestionModel> questions = [];
-  String selectedAnswerType = 'Checkbox';
+  String selectedAnswerType = 'Text Field';
   TextEditingController questionTextController = TextEditingController();
   List<String> answerOptions = [];
   MyGeneralController generalController = Get.find<MyGeneralController>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,10 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
                       children: [
                         Align(
                             alignment: Alignment.topLeft,
-                            child: CustomTextWidget(text: "Questionare",fWeight: FontWeight.w500,fSize: 18)),
+                            child: CustomTextWidget(
+                                text: "Questionare",
+                                fWeight: FontWeight.w500,
+                                fSize: 18)),
                         SizedBox(
                           height: 8,
                         ),
@@ -55,7 +57,8 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
                     )
                   : Column(
                       children: [
-                        CustomTextWidget(text: "Questionare",fWeight: FontWeight.w500),
+                        CustomTextWidget(
+                            text: "Questionare", fWeight: FontWeight.w500),
                         _questionField(),
                         const SizedBox(height: 15.0),
                         _dropdown(context),
@@ -92,7 +95,8 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
                                 hintStyle: const TextStyle(
                                     color: Colors.grey, fontSize: 14),
                                 border: InputBorder.none,
-                                hintText: 'Enter Answer ${(index + 1).toString()}',
+                                hintText:
+                                    'Enter Answer ${(index + 1).toString()}',
                               ),
                               onChanged: (value) {
                                 answerOptions[index] = value;
@@ -106,21 +110,15 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
                   ),
                 ],
               ),
-            context.isLandscape
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _addOptionButton(),
-                      _addQuestionButton(),
-                    ],
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _addOptionButton(),
-                      _addQuestionButton(),
-                    ],
-                  )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (selectedAnswerType == 'Checkbox' ||
+                    selectedAnswerType == 'Radio Button')
+                  _addOptionButton(),
+                _addQuestionButton(),
+              ],
+            )
           ],
         ),
       ),
@@ -144,19 +142,13 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
       width: 140,
       buttonText: 'Add Question',
       onTap: () {
-
-
-
         String questions = questionTextController.text;
         String questionsType = selectedAnswerType;
-        generalController.addQuestion(
-            MyQuestionModel(
-            question: questions,
-            type: questionsType,
-            choices:answerOptions
-            ));
+        generalController.addQuestion1(MyQuestionModel(
+            question: questions, type: questionsType, choices: answerOptions));
         questionTextController.clear();
         setState(() {});
+        Get.back();
 
         //
         // setState(() {
@@ -168,7 +160,7 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
         //   questionTextController.clear();
         //   answerOptions = [];
         // });
-       // MyQuestionModel? question = questions.last;
+        // MyQuestionModel? question = questions.last;
         // ignore: avoid_print
         // print('Question: ${question.question}');
         // print('QuestionType: ${question.type}');
@@ -181,30 +173,33 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
   Container _dropdown(BuildContext context) {
     return Container(
       height: 50.0,
+      width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       color: Colors.white,
-      child: Center(
-        child: DropdownButton<String>(
-          alignment: Alignment.center,
-          dropdownColor: Colors.white,
-          focusColor: Colors.white,
-          elevation: 0,
-          underline: SizedBox(),
-          borderRadius: BorderRadius.circular(12.0),
-          value: selectedAnswerType,
-          items:
-              ['Checkbox', 'Radio Button', 'Yes/No', 'Text Field'].map((type) {
-            return DropdownMenuItem<String>(
-              value: type,
-              child: CustomTextWidget(text: type),
-            );
-          }).toList(),
-          onChanged: (value) {
-            setState(() {
-              selectedAnswerType = value!;
-            });
-          },
-        ),
+      child: DropdownButton<String>(
+        alignment: Alignment.center,
+        dropdownColor: Colors.white,
+        focusColor: Colors.white,
+        elevation: 0,
+        underline: SizedBox(),
+        borderRadius: BorderRadius.circular(12.0),
+        value: selectedAnswerType,
+        items: [
+          'Text Field',
+          'Rich Text Field',
+          'Checkbox',
+          'Radio Button',
+        ].map((type) {
+          return DropdownMenuItem<String>(
+            value: type,
+            child: CustomTextWidget(text: type),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() {
+            selectedAnswerType = value!;
+          });
+        },
       ),
     );
   }

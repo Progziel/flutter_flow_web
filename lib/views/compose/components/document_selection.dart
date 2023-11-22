@@ -50,6 +50,7 @@ class _DocumentFormState extends State<DocumentForm> {
                           MyDocumentModel(name: documentName, fileType: documentType));
                       nameController.clear();
                       setState(() {});
+                      Get.back();
                     },
                   ),
 

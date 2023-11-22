@@ -26,11 +26,12 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
+SideMenuController sideMenu = SideMenuController();
+
 class _MainScreenState extends State<MainScreen> {
   // bool isMenuTapped = false;
-  PageController pageController = PageController();
-  SideMenuController sideMenu = SideMenuController();
   late MyGeneralController controller;
+  PageController pageController = PageController();
 
   @override
   void initState() {
@@ -180,13 +181,13 @@ class _MainScreenState extends State<MainScreen> {
                       },
                       icon: const Icon(Icons.person_2),
                     ),
-                    SideMenuItem(
-                      title: 'Admin',
-                      onTap: (index, _) {
-                        sideMenu.changePage(index);
-                      },
-                      icon: const Icon(Icons.person_2),
-                    ),
+                    // SideMenuItem(
+                    //   title: 'Admin',
+                    //   onTap: (index, _) {
+                    //     sideMenu.changePage(index);
+                    //   },
+                    //   icon: const Icon(Icons.person_2),
+                    // ),
                     SideMenuItem(
                       title: 'Reminders',
                       onTap: (index, _) {
@@ -227,7 +228,7 @@ class _MainScreenState extends State<MainScreen> {
                       DocumentScreen(),
                       TemplateScreen(),
                       ClientScreen(),
-                      AdminScreen(),
+                     // AdminScreen(),
                       ReminderScreen(),
                       PricingScreen(),
                       Settings(),

@@ -1,11 +1,12 @@
+enum QuestionType {textField, richTextField, checkBox, radioButton}
 class Question {
   String text;
-  String answerType;
-  List<String> answerOptions;
+  QuestionType questionType;
+  List<String>? answerOptions;
 
   Question({
     required this.text,
-    required this.answerType,
-    this.answerOptions = const [],
+    required this.questionType,
+    this.answerOptions,
   });
 }

@@ -177,7 +177,6 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                           //  maxLines: 2,
                                         ),
                                         CustomTextWidget(
-
                                           text:  removeHtmlTags(template.instruction ?? ''),
                                           fSize: 16.0,
                                           fWeight: FontWeight.w600,

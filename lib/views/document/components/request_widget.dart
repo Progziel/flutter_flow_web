@@ -7,15 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
-class LeadFormWidget extends StatefulWidget {
-  const LeadFormWidget({super.key});
+class RequestedWidget extends StatefulWidget {
+  const RequestedWidget({super.key});
 
   @override
-  State<LeadFormWidget> createState() => _LeadFormWidgetState();
+  State<RequestedWidget> createState() => _RequestedWidgetState();
 }
 
-class _LeadFormWidgetState extends State<LeadFormWidget> {
-  MyGeneralController controller = Get.find<MyGeneralController>();
+
+class _RequestedWidgetState extends State<RequestedWidget> {
+MyGeneralController controller = Get.find<MyGeneralController>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,7 @@ class _LeadFormWidgetState extends State<LeadFormWidget> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+
                       OpenContainer(
                         openColor: Colors.transparent,
                         closedColor: Colors.transparent,
@@ -283,9 +285,10 @@ class _LeadFormWidgetState extends State<LeadFormWidget> {
                         closedShape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               0), // Set border radius to 0
+
                         ),
                       ),
-                      Divider()
+                      const Divider()
                     ],
                   );
                 },

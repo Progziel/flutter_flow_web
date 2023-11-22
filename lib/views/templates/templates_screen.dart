@@ -166,9 +166,9 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                       children: [
                                         CustomTextWidget(
                                           text: template.name ?? '',
@@ -197,7 +197,7 @@ class _TemplateScreenState extends State<TemplateScreen> {
                                         ),
                                         CustomTextWidget(
                                           text:
-                                              'Created at: ${template.createdAt}',
+                                          'Created at: ${template.createdAt}',
                                           fSize: 12.0,
                                           fWeight: FontWeight.w300,
                                           maxLines: 2,

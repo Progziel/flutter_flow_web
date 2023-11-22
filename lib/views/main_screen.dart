@@ -1,6 +1,6 @@
 import 'package:document_management_web/controller.dart';
 import 'package:document_management_web/utilities/constants.dart';
-import 'package:document_management_web/views/admin/admin_screen.dart';
+import 'package:document_management_web/views/auth/login_screen.dart';
 import 'package:document_management_web/views/compose/compose_screen.dart';
 import 'package:document_management_web/views/pricing/pricing_screen.dart';
 import 'package:document_management_web/views/reminders/reminder_screen.dart';
@@ -29,9 +29,11 @@ class MainScreen extends StatefulWidget {
 SideMenuController sideMenu = SideMenuController();
 
 class _MainScreenState extends State<MainScreen> {
-  // bool isMenuTapped = false;
-  late MyGeneralController controller;
+
   PageController pageController = PageController();
+  SideMenuController sideMenu = SideMenuController();
+
+  late MyGeneralController controller;
 
   @override
   void initState() {
@@ -44,10 +46,12 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = context.isPortrait;
     return Scaffold(
       backgroundColor: AppAssets.primaryColor,
       body: Column(
         children: [
+          //AppBar
           SizedBox(
             height: 80,
             child: Row(
@@ -90,13 +94,8 @@ class _MainScreenState extends State<MainScreen> {
                   // footer: StorageIndicator(),
                   collapseWidth: 100,
                   controller: sideMenu,
-                  // title: SideMenuDisplayMode.compact == true ?  CustomButtonWidget(
-                  //   buttonText: 'New Request',
-                  //   onTap: () {},
-                  //   buttonColor: AppAssets.backgroundColor,
-                  // ),
                   style: SideMenuStyle(
-                    openSideMenuWidth: context.width * 0.2,
+                    openSideMenuWidth: 250,
                     itemBorderRadius: BorderRadius.circular(12.0),
                     toggleColor: Colors.white,
                     itemOuterPadding:
@@ -104,7 +103,9 @@ class _MainScreenState extends State<MainScreen> {
                     compactSideMenuWidth: 70,
                     backgroundColor: Colors.transparent,
                     itemInnerSpacing: 10.0,
-                    displayMode: SideMenuDisplayMode.compact,
+                    displayMode: isMobile
+                        ? SideMenuDisplayMode.compact
+                        : SideMenuDisplayMode.open,
                     showTooltip: true,
                     iconSize: 26,
                     decoration: const BoxDecoration(
@@ -128,14 +129,13 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     selectedIconColor: Colors.white,
                   ),
-                  showToggle: true,
+                  showToggle: isMobile ? false : true,
                   items: [
                     SideMenuItem(
                       title: 'Dashboard',
                       onTap: (index, _) {
                         sideMenu.changePage(index);
                       },
-                      // iconWidget: Image.asset('assets/images/menu.png', height: 25),
                       icon: const Icon(Icons.home_filled),
                       badgeContent: const Text(
                         '3',
@@ -145,23 +145,13 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     SideMenuItem(
                       title: 'New Request',
-                      // trailing: IconButton(
-                      //   icon: const Icon(
-                      //     Icons.arrow_drop_down_rounded,
-                      //     color: Colors.white,
-                      //   ),
-                      //   onPressed: () {
-                      //     const CustomDropDown(
-                      //         dropDownText: '', color: Colors.white, list: []);
-                      //   },
-                      // ),
                       onTap: (index, _) {
                         sideMenu.changePage(index);
                       },
                       icon: const Icon(Icons.description),
                     ),
                     SideMenuItem(
-                      title: 'Lead Form',
+                      title: 'Documents',
                       onTap: (index, _) {
                         sideMenu.changePage(index);
                       },
@@ -175,19 +165,26 @@ class _MainScreenState extends State<MainScreen> {
                       icon: const Icon(Icons.edit_document),
                     ),
                     SideMenuItem(
+// <<<<<<< HEAD
                       title: 'Client',
+// =======
+//                       title: 'Admin',
+// >>>>>>> 96c7f1011d5cbce59b86fac71e71c1cd6c596187
                       onTap: (index, _) {
                         sideMenu.changePage(index);
                       },
                       icon: const Icon(Icons.person_2),
                     ),
-                    // SideMenuItem(
-                    //   title: 'Admin',
-                    //   onTap: (index, _) {
-                    //     sideMenu.changePage(index);
-                    //   },
-                    //   icon: const Icon(Icons.person_2),
-                    // ),
+// <<<<<<< HEAD
+//                     // SideMenuItem(
+//                     //   title: 'Admin',
+//                     //   onTap: (index, _) {
+//                     //     sideMenu.changePage(index);
+//                     //   },
+//                     //   icon: const Icon(Icons.person_2),
+//                     // ),
+// =======
+// >>>>>>> 96c7f1011d5cbce59b86fac71e71c1cd6c596187
                     SideMenuItem(
                       title: 'Reminders',
                       onTap: (index, _) {
@@ -209,14 +206,14 @@ class _MainScreenState extends State<MainScreen> {
                       },
                       icon: const Icon(Icons.settings),
                     ),
-                    // SideMenuItem(
-                    //   title: 'Logout',
-                    //   onTap: (index, _) {
-                    //     Get.to(const LoginScreen(),
-                    //         transition: Transition.fadeIn);
-                    //   },
-                    //   icon: const Icon(Icons.logout),
-                    // ),
+                    SideMenuItem(
+                      title: 'Logout',
+                      onTap: (index, _) {
+                        Get.to(const LoginScreen(),
+                            transition: Transition.fadeIn);
+                      },
+                      icon: const Icon(Icons.logout),
+                    ),
                   ],
                 ),
                 Expanded(
@@ -227,8 +224,10 @@ class _MainScreenState extends State<MainScreen> {
                       NewRequestScreen(),
                       DocumentScreen(),
                       TemplateScreen(),
+
                       ClientScreen(),
                      // AdminScreen(),
+
                       ReminderScreen(),
                       PricingScreen(),
                       Settings(),

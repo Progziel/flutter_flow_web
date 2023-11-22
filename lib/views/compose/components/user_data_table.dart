@@ -59,6 +59,7 @@ class _UserDataTableState extends State<UserDataTable>
             tabs: [
               Tab(height: 40, child: CustomTextWidget(text: 'Entry')),
               Tab(height: 40, child: CustomTextWidget(text: 'Clients')),
+
               Tab(height: 40, child: CustomTextWidget(text: 'Groups')),
             ],
           ),
@@ -68,6 +69,7 @@ class _UserDataTableState extends State<UserDataTable>
         Expanded(
           child: TabBarView(
             controller: _tabController,
+// <<<<<<< HEAD
             children: [
               const IndividualRequest(),
               UserTable(
@@ -79,6 +81,12 @@ class _UserDataTableState extends State<UserDataTable>
                 users: _controller.users,
                 onSelected: (List<UserModel> list) {},
               ),
+// =======
+//             children: const [
+//               IndividualRequest(),
+//               UserTable(),
+//               UserTable(),
+// >>>>>>> 96c7f1011d5cbce59b86fac71e71c1cd6c596187
             ],
           ),
         ),

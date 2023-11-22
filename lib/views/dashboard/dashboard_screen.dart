@@ -26,10 +26,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late MyGeneralController generalController;
   late List<ChartData> data;
 
-  //late TooltipBehavior _tooltip;
-
   final List<PieChartData> chartData = [
-    PieChartData('David', 100),
+    PieChartData(
+      'David',
+      100,
+    ),
     PieChartData('Steve', 110),
     PieChartData('Jack', 320),
     PieChartData('Others', 830)
@@ -60,10 +61,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
               borderRadius: const BorderRadius.all(Radius.circular(16.0))),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                LayoutBuilder(
-                    builder: (context, boxContraints) => Wrap(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CustomTextWidget(
+                    text: 'System Analysis',
+                    fSize: 20.0,
+                    fWeight: FontWeight.w700,
+                    textAlign: TextAlign.left,
+                  ),
+                  LayoutBuilder(
+                    builder: (context, boxContraints) {
+                      if (context.isLandscape) {
+                        return Wrap(
                           spacing: 10.0,
                           children: [
                             PieChart(boxContraints.maxWidth * 0.2),
@@ -71,95 +83,71 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 boxContraints.maxWidth * 0.50),
                             RadialBar(boxContraints.maxWidth * 0.2),
                           ],
-                        )),
-                const Divider(),
-                SizedBox(
-                  child: Wrap(
-                    children: [
-                      OpenContainer(
-                        openColor: Colors.transparent,
-                        closedColor: Colors.transparent,
-                        transitionDuration: const Duration(milliseconds: 500),
-                        closedBuilder: (context, action) => Obx(() =>
-                            CustomAnalyticsContainer(
-                                analyticsType: 'Total Clients',
-                                analyticsValue:
-                                    generalController.users.length.toString(),
-                                analyticsPercentage: '10',
-                                icon: Icons.arrow_upward_outlined)),
-                        openBuilder: (context, action) {
-                          return Scaffold(
-                            appBar: AppBar(),
-                            body: UsersList(),
-                          );
-                        },
-                        openElevation: 0,
-                        closedElevation:
-                            0, // Set elevation to 0 to remove the shadow
-                        closedShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              0), // Set border radius to 0
-                        ),
-                      ),
-                      OpenContainer(
-                        openColor: Colors.transparent,
-                        closedColor: Colors.transparent,
-                        transitionDuration: const Duration(milliseconds: 500),
-                        closedBuilder: (context, action) => Obx(() =>
-                            CustomAnalyticsContainer(
-                                analyticsType: 'Total Groups',
-                                analyticsValue:
-                                generalController.groups.length.toString(),
-                                analyticsPercentage: '10',
-                                icon: Icons.arrow_upward_outlined)),
-                        openBuilder: (context, action) {
-                          return Scaffold(
-                            appBar: AppBar(),
-                            body: totalGroups(context),
-                          );
-                        },
-                        openElevation: 0,
-                        closedElevation:
-                        0, // Set elevation to 0 to remove the shadow
-                        closedShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              0), // Set border radius to 0
-                        ),
-                      ),
-                      const CustomAnalyticsContainer(
-                          analyticsType: 'Total Completed',
-                          analyticsValue: '26',
-                          analyticsPercentage: '-7',
-                          icon: Icons.arrow_downward_outlined),
-                      const CustomAnalyticsContainer(
-                          analyticsType: 'Total Recieved',
-                          analyticsValue: '12',
-                          analyticsPercentage: '33',
-                          icon: Icons.arrow_upward_outlined),
-                      const CustomAnalyticsContainer(
-                          analyticsType: 'Total Archieve',
-                          analyticsValue: '452',
-                          analyticsPercentage: '25',
-                          icon: Icons.arrow_upward_outlined),
-                      const CustomAnalyticsContainer(
-                          analyticsType: 'Total Users',
-                          analyticsValue: '42',
-                          analyticsPercentage: '10',
-                          icon: Icons.arrow_upward_outlined),
-                      const CustomAnalyticsContainer(
-                          analyticsType: 'Total Documents',
-                          analyticsValue: '26',
-                          analyticsPercentage: '-7',
-                          icon: Icons.arrow_downward_outlined),
-                      const CustomAnalyticsContainer(
-                          analyticsType: 'Total Completed',
-                          analyticsValue: '26',
-                          analyticsPercentage: '-7',
-                          icon: Icons.arrow_downward_outlined),
-                    ],
+
+                        );
+                      } else {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            PieChart(boxContraints.maxWidth * 0.70),
+                            _buildStackedLine100Chart(
+                                boxContraints.maxWidth * 0.70),
+                            RadialBar(boxContraints.maxWidth * 0.70),
+                          ],
+                        );
+                      }
+                    },
                   ),
-                ),
-              ],
+                  const Divider(),
+                  SizedBox(
+                    //Analytics Container
+                    child: Wrap(
+                      children: [
+                        OpenContainer(
+                          openColor: Colors.transparent,
+                          closedColor: Colors.transparent,
+                          transitionDuration: const Duration(milliseconds: 500),
+                          closedBuilder: (context, action) => Obx(() =>
+                              CustomAnalyticsContainer(
+                                  analyticsType: 'Total Clients',
+                                  analyticsValue:
+                                      generalController.users.length.toString(),
+                                  analyticsPercentage: '10',
+                                  icon: Icons.arrow_upward_outlined)),
+                          openBuilder: (context, action) {
+                            return Scaffold(
+                              appBar: AppBar(),
+                              body: UsersList(),
+                            );
+                          },
+                          openElevation: 0,
+                          closedElevation: 0,
+                          // Set elevation to 0 to remove the shadow
+                          closedShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                0), // Set border radius to 0
+                          ),
+                        ),
+                        const CustomAnalyticsContainer(
+                            analyticsType: 'Total Groups',
+                            analyticsValue: '26',
+                            analyticsPercentage: '-7',
+                            icon: Icons.arrow_downward_outlined),
+                        const CustomAnalyticsContainer(
+                            analyticsType: 'Total Completed',
+                            analyticsValue: '26',
+                            analyticsPercentage: '-7',
+                            icon: Icons.arrow_downward_outlined),
+                        const CustomAnalyticsContainer(
+                            analyticsType: 'Total Received',
+                            analyticsValue: '12',
+                            analyticsPercentage: '33',
+                            icon: Icons.arrow_upward_outlined),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ));
@@ -262,6 +250,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           height: 100,
           child: SfCircularChart(series: <CircularSeries>[
             RadialBarSeries<PieChartData, String>(
+                strokeColor: Colors.black,
                 enableTooltip: true,
                 dataSource: chartData,
                 xValueMapper: (PieChartData data, _) => data.x,
@@ -282,10 +271,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: SfCircularChart(series: <CircularSeries>[
           PieSeries<PieChartData, String>(
             dataSource: chartData,
-            pointColorMapper: (PieChartData data, _) => data.color,
             xValueMapper: (PieChartData data, _) => data.x,
             yValueMapper: (PieChartData data, _) => data.y,
-          ),
+          )
         ]),
       ),
     );
@@ -301,7 +289,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
-        title: ChartTitle(text: 'Document Management System - User Analysis'),
+        title: ChartTitle(text: 'User Analysis'),
         primaryXAxis: CategoryAxis(
           majorGridLines: const MajorGridLines(width: 0),
           labelRotation: -45,

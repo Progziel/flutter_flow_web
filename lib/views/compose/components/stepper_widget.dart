@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:document_management_web/controller.dart';
-import 'package:document_management_web/models/template_model.dart';
 import 'package:document_management_web/utilities/constants.dart';
 import 'package:document_management_web/views/compose/components/date_selection.dart';
 import 'package:document_management_web/views/compose/components/formdata.dart';
@@ -16,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+import '../../../controller.dart';
+import '../../../models/template_model.dart';
 import '../../main_screen.dart';
 
 class StepperWidget extends StatefulWidget {
@@ -70,6 +70,7 @@ class StepperWidgetState extends State<StepperWidget> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -100,7 +101,7 @@ class StepperWidgetState extends State<StepperWidget> {
               CustomButtonWidget(
                   buttonText: 'Back', onTap: details.onStepCancel!),
               Visibility(
-                visible: _currentStep >= 4,
+                visible: _currentStep >= 3,
                 child: CustomButtonWidget(
                   buttonText: 'Save as Template',
                   onTap: () {
@@ -109,6 +110,7 @@ class StepperWidgetState extends State<StepperWidget> {
                 ),
               ),
               CustomButtonWidget(
+// <<<<<<< HEAD
                 buttonText: _currentStep < 4 ? 'Next' : 'Send Request',
                 onTap: () async {
                   if (_currentStep < 4) {
@@ -117,6 +119,12 @@ class StepperWidgetState extends State<StepperWidget> {
                     print('object');
                     //
                     // print('rizwan added: ${generalController.selectedUsers.length}');
+// =======
+//                 buttonText: _currentStep >= 3 ? 'Send Request' : 'Next',
+//                 onTap: () {
+//                   details.onStepContinue!();
+//                   if (_currentStep > 3) {
+// >>>>>>> 96c7f1011d5cbce59b86fac71e71c1cd6c596187
                     // Generate a random link
                     // String randomLink = generateRandomLink();
                     //
@@ -149,10 +157,11 @@ class StepperWidgetState extends State<StepperWidget> {
           //Step1
           Step(
             isActive: _currentStep >= 0,
-            label: CustomTextWidget(text: 'Instructions'),
+            label: CustomTextWidget(text: 'Document\'s Selection'),
             title: CustomTextWidget(text: ''),
             state: _currentStep >= 1 ? StepState.complete : StepState.indexed,
             content: Container(
+
                 height: context.height * 0.55,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -173,6 +182,7 @@ class StepperWidgetState extends State<StepperWidget> {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: Colors.white,
               ),
+
               padding: const EdgeInsets.all(16.0),
               child: FormDataWidget(),
             ),
@@ -194,8 +204,9 @@ class StepperWidgetState extends State<StepperWidget> {
           Step(
             isActive: _currentStep >= 2,
             label: CustomTextWidget(text: 'Client Selection'),
+
             title: CustomTextWidget(text: ''),
-            state: _currentStep >= 3 ? StepState.complete : StepState.indexed,
+            state: _currentStep >= 2 ? StepState.complete : StepState.indexed,
             content: Container(
               height: context.height * 0.55,
               color: Colors.white,
@@ -205,10 +216,10 @@ class StepperWidgetState extends State<StepperWidget> {
           ),
           //Step4
           Step(
-            isActive: _currentStep >= 3,
+            isActive: _currentStep >= 2,
             label: CustomTextWidget(text: 'Date Selection'),
             title: CustomTextWidget(text: ''),
-            state: _currentStep >= 4 ? StepState.complete : StepState.indexed,
+            state: _currentStep >= 3 ? StepState.complete : StepState.indexed,
             content: Container(
               height: context.height * 0.55,
               color: Colors.white,
@@ -218,10 +229,10 @@ class StepperWidgetState extends State<StepperWidget> {
           ),
           //Step5
           Step(
-            isActive: _currentStep >= 4,
+            isActive: _currentStep >= 3,
             label: CustomTextWidget(text: 'Review'),
             title: CustomTextWidget(text: ''),
-            state: _currentStep >= 5 ? StepState.complete : StepState.indexed,
+            state: _currentStep >= 4 ? StepState.complete : StepState.indexed,
             content: Container(
               height: context.height * 0.55,
               color: Colors.white,
@@ -256,6 +267,7 @@ class StepperWidgetState extends State<StepperWidget> {
             ),
             CustomButtonWidget(
               buttonText: 'Save',
+// <<<<<<< HEAD
               onTap: () async {
                 generalController.addTemplate(MyTemplateModel(
                     name: _templateNameController.text,
@@ -268,6 +280,10 @@ class StepperWidgetState extends State<StepperWidget> {
 
                 _saveTemplate();
                 // print(object)
+// =======
+//               onTap: () {
+//                 _saveTemplate();
+// >>>>>>> 96c7f1011d5cbce59b86fac71e71c1cd6c596187
                 Get.back();
               },
             ),
@@ -303,6 +319,7 @@ class StepperWidgetState extends State<StepperWidget> {
 
     return randomLink;
   }
+
 
   Widget _flutterQuill() {
     return Column(children: [
@@ -360,4 +377,5 @@ class StepperWidgetState extends State<StepperWidget> {
           )),
     );
   }
+
 }

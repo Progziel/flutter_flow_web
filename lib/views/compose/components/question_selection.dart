@@ -37,33 +37,33 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
           children: [
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+              const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
               child: context.isLandscape
                   ? Column(
-                      children: [
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: CustomTextWidget(
-                                text: "Questionare",
-                                fWeight: FontWeight.w500,
-                                fSize: 18)),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        _questionField(),
-                        const SizedBox(height: 15.0),
-                        _dropdown(context),
-                      ],
-                    )
+                children: [
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: CustomTextWidget(
+                          text: "Questionare",
+                          fWeight: FontWeight.w500,
+                          fSize: 18)),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  _questionField(),
+                  const SizedBox(height: 15.0),
+                  _dropdown(context),
+                ],
+              )
                   : Column(
-                      children: [
-                        CustomTextWidget(
-                            text: "Questionare", fWeight: FontWeight.w500),
-                        _questionField(),
-                        const SizedBox(height: 15.0),
-                        _dropdown(context),
-                      ],
-                    ),
+                children: [
+                  CustomTextWidget(
+                      text: "Questionare", fWeight: FontWeight.w500),
+                  _questionField(),
+                  const SizedBox(height: 15.0),
+                  _dropdown(context),
+                ],
+              ),
             ),
             if (selectedAnswerType == 'Checkbox' ||
                 selectedAnswerType == 'Radio Button')
@@ -96,7 +96,7 @@ class _QuestionnaireFormState extends State<QuestionnaireForm> {
                                     color: Colors.grey, fontSize: 14),
                                 border: InputBorder.none,
                                 hintText:
-                                    'Enter Answer ${(index + 1).toString()}',
+                                'Enter Answer ${(index + 1).toString()}',
                               ),
                               onChanged: (value) {
                                 answerOptions[index] = value;

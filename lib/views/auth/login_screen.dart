@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen>
           : Column(
               children: [
                 Expanded(child: _logo()),
-                Expanded(flex: 2, child: _login()),
+                Expanded(child: _login()),
               ],
             ),
 
@@ -99,23 +99,19 @@ class _LoginScreenState extends State<LoginScreen>
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTextWidget(
-                    text: 'Craft Your Personalized  Document Workflow',
-                    fSize: 26.0,
-                    fWeight: FontWeight.w700,
-                    textColor: Colors.white,
-                  ),
-                  const SizedBox(height: 16),
-                ],
+              const SizedBox(height: 20),
+              CustomTextWidget(
+                text: 'Craft Your Personalized  Document Workflow',
+                fSize: 22.0,
+                fWeight: FontWeight.w700,
+                textColor: Colors.white,
+                maxLines: 4,
+                textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 16),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -127,31 +123,34 @@ class _LoginScreenState extends State<LoginScreen>
                     animatedTexts: [
                       TyperAnimatedText(
                         'Securely Access your Personalized Workspace',
+                        textAlign: TextAlign.center,
                         textStyle: GoogleFonts.poppins(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),
                       ),
                       TyperAnimatedText(
                         'Manage Document Requests and set Reminders',
+                        textAlign: TextAlign.center,
                         textStyle: GoogleFonts.poppins(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),
                       ),
                       TyperAnimatedText(
                         'Experience Seamless Collaboration',
+                        textAlign: TextAlign.center,
                         textStyle: GoogleFonts.poppins(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
                           color: Colors.white,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                 ],
               ),
               Expanded(child: Image.asset('assets/images/loginpage.png'))
@@ -174,7 +173,8 @@ class _LoginScreenState extends State<LoginScreen>
             children: [
               Image.asset(
                 'assets/images/app-logo.png',
-                //  width: 300,
+                width: 300,
+                height: 80,
               ),
               const SizedBox(height: 16),
               CustomTextField(

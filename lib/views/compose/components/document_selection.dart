@@ -39,6 +39,7 @@ class _DocumentFormState extends State<DocumentForm> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _myDoc(),
+// <<<<<<< HEAD
                   const SizedBox(height: 5),
                   CustomButtonWidget(
                     buttonText: 'ADD',
@@ -52,13 +53,103 @@ class _DocumentFormState extends State<DocumentForm> {
                       setState(() {});
                       Get.back();
                     },
+// =======
+//                   Expanded(
+//                     child: ListView.builder(
+//                       shrinkWrap: true,
+//                       itemCount: generalController.documents.length,
+//                       physics: const AlwaysScrollableScrollPhysics(),
+//                       itemBuilder: (context, index) {
+//                         return Row(
+//                           children: [
+//                             Expanded(
+//                               child: Card(
+//                                 child: Padding(
+//                                     padding: const EdgeInsets.all(8.0),
+//                                     child: Row(
+//                                       mainAxisAlignment:
+//                                           MainAxisAlignment.spaceBetween,
+//                                       children: [
+//                                         RichText(
+//                                           text: TextSpan(
+//                                             style: DefaultTextStyle.of(context)
+//                                                 .style,
+//                                             children: [
+//                                               TextSpan(
+//                                                 text: '${index + 1}. ',
+//                                               ),
+//                                               TextSpan(
+//                                                 text: 'Document Name: ',
+//                                                 style: GoogleFonts.poppins(
+//                                                   fontSize: 14,
+//                                                   fontWeight: FontWeight.w600,
+//                                                   color: Colors.black,
+//                                                 ),
+//                                               ),
+//                                               TextSpan(
+//                                                 text: generalController
+//                                                     .documents[index].name,
+//                                               ),
+//                                             ],
+//                                           ),
+//                                         ),
+//                                         RichText(
+//                                           text: TextSpan(
+//                                             style: DefaultTextStyle.of(context)
+//                                                 .style,
+//                                             children: [
+//                                               TextSpan(
+//                                                 text: 'Document Type: ',
+//                                                 style: GoogleFonts.poppins(
+//                                                   fontSize: 14,
+//                                                   fontWeight: FontWeight.w600,
+//                                                   color: Colors.black,
+//                                                 ),
+//                                               ),
+//                                               TextSpan(
+//                                                 text: generalController
+//                                                     .documents[index].fileType,
+//                                               ),
+//                                             ],
+//                                           ),
+//                                         ),
+//                                       ],
+//                                     )),
+//                               ),
+//                             ),
+//                             IconButton(
+//                                 onPressed: () {
+//                                   setState(() {
+//                                     generalController.deleteDocument(index);
+//                                   });
+//                                 },
+//                                 icon: const Icon(
+//                                   Icons.delete,
+//                                   color: Colors.red,
+//                                 ))
+//                           ],
+//                         );
+//                       },
+//                     ),
+// >>>>>>> 96c7f1011d5cbce59b86fac71e71c1cd6c596187
                   ),
-
                 ],
               ),
             ),
           ),
-
+          const SizedBox(height: 5),
+          CustomButtonWidget(
+            buttonText: 'ADD',
+            width: 150,
+            onTap: () {
+              String documentName = nameController.text;
+              String documentType = selectedDocumentType;
+              generalController.addDocument(
+                  MyDocumentModel(name: documentName, fileType: documentType));
+              nameController.clear();
+              setState(() {});
+            },
+          ),
         ],
       ),
     );
@@ -67,12 +158,16 @@ class _DocumentFormState extends State<DocumentForm> {
   Widget _myDoc() => Padding(
         padding: const EdgeInsets.all(4.0),
         child: context.isLandscape
-            ? Column(
+            ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _questionColumn(),
-
-                  _dropdownColumn(),
+                  Expanded(
+                    child: _questionColumn(),
+                  ),
+                  const Spacer(),
+                  Expanded(
+                    child: _dropdownColumn(),
+                  ),
                 ],
               )
             : Column(
@@ -111,7 +206,7 @@ class _DocumentFormState extends State<DocumentForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomTextWidget(text: 'Documents',fWeight: FontWeight.w500,fSize: 18),
+        CustomTextWidget(text: 'Document Name'),
         const SizedBox(height: 5),
         CustomTextField(
           fillColor: Colors.white,

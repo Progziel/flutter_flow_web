@@ -11,21 +11,19 @@ class AdminScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         decoration: BoxDecoration(
             color: AppAssets.backgroundColor,
             borderRadius: const BorderRadius.all(Radius.circular(16.0))),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
             CustomTextWidget(
               text: 'Overview',
-              fSize: 22.0,
-              fWeight: FontWeight.w600,
+              fSize: 18.0,
+              fWeight: FontWeight.w500,
             ),
             Wrap(
               // spacing: 25.0,
@@ -45,7 +43,8 @@ class AdminScreen extends StatelessWidget {
                       const UserManagementScreen(),
 
                   openElevation: 0,
-                  closedElevation: 0, // Set elevation to 0 to remove the shadow
+                  closedElevation: 0,
+                  // Set elevation to 0 to remove the shadow
                   closedShape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(0), // Set border radius to 0
@@ -72,14 +71,14 @@ class AdminScreen extends StatelessWidget {
             CustomTextWidget(
               text: 'Transaction History',
               fSize: 18.0,
-              fWeight: FontWeight.w600,
+              fWeight: FontWeight.w500,
             ),
-            const SizedBox(height: 15.0),
+            const SizedBox(height: 10.0),
             const PaymentHistoryTable(),
             const SizedBox(height: 15.0),
           ],
         ),
       ),
-    ));
+    );
   }
 }

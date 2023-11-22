@@ -12,23 +12,27 @@ class MyGeneralController extends GetxController {
   final _users = <UserModel>[].obs;
   final _groups = <GroupModel>[].obs;
   final _documents = <MyDocumentModel>[].obs;
+
   final _questions = <MyQuestionModel>[].obs;
   final _selectedUsers = <UserModel>[].obs;
   final _templates = <MyTemplateModel>[].obs;
   final List<MyLeadFormModel> _leadForms = [];
   //final _leadForm = <MyLeadFormModel>[].obs;
 
+
   QuillEditorController get instructionController => _instructionController;
   List<UserModel> get users => _users;
   List<GroupModel> get groups => _groups;
   List<MyDocumentModel> get documents => _documents;
   List<MyTemplateModel> get templates => _templates;
+
   List<MyQuestionModel> get questions1 => _questions;
   List<UserModel> get selectedUsers => _selectedUsers;
   List<MyLeadFormModel> get leadForms => _leadForms;
 
   void setQuillController() =>
       _instructionController = QuillEditorController();
+
 
   void addUser(UserModel model) => _users.add(model);
   void deleteUser(int index) => _users.removeAt(index);
@@ -48,6 +52,7 @@ class MyGeneralController extends GetxController {
   void addTemplate(MyTemplateModel model) => _templates.add(model);
   void deleteTemplate(int index) => _templates.removeAt(index);
 
+
   void addLeadForm() =>
       _leadForms.add(MyLeadFormModel(
           instructionController: _instructionController,
@@ -61,4 +66,5 @@ class MyGeneralController extends GetxController {
     RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
     return htmlString.replaceAll(exp, '');
   }
+
 }

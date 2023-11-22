@@ -52,7 +52,7 @@ class _DocumentScreenState extends State<DocumentScreen>
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     CustomTextWidget(
-                        text: 'Lead Form', fSize: 20, fWeight: FontWeight.w700),
+                        text: 'Documents', fSize: 20, fWeight: FontWeight.w700),
                   ],
                 ),
               ),
@@ -80,11 +80,11 @@ class _DocumentScreenState extends State<DocumentScreen>
                     mouseCursor: MaterialStateMouseCursor.clickable,
                     tabs: const [
                       Tab(
-                        text: 'Lead Form',
+                        text: 'Request',
                         height: 40,
                       ),
                       Tab(
-                        text: 'Review',
+                        text: 'Recieved',
                         height: 40,
                       ),
                       Tab(
@@ -107,7 +107,7 @@ class _DocumentScreenState extends State<DocumentScreen>
                 child: TabBarView(
                   controller: _tabController,
                   children: const [
-                    LeadFormWidget(),
+                    RequestedWidget(),
                     RecievedWidget(),
                     CompletedWidget(),
                     // SentWidget(),
